@@ -19,7 +19,7 @@ if ($DIR ne "") {
 	$EXCEL_URL =~ s/$ENV{'SCRIPT_NAME'}/\/Users\/$USER\/excel\.xls/;
 
 	if (!((-e $TRANS_FILE) && (-e $BALANCE_FILE) && (-e $PASSWD_FILE))) {
-		print "Location: /login.html?retry=nofiles\n\n";
+		print "Location: login.html?retry=nofiles\n\n";
 	}
 }
 else {
