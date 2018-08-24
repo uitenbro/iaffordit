@@ -1,0 +1,86 @@
+<html>
+<meta name="viewport" content="user-scalable=no; width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<link rel="apple-touch-startup-image" href="./canvas.png" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<head>
+<title>iAfford It - Balance Forecaster</title>
+<link rel="stylesheet" href="stylesheet/iphone.css" />
+<script type="text/javascript">
+
+function gup( name )
+{
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+function isdefined( variable)
+{
+    return (typeof(window[variable]) == "undefined")?  false: true;
+}
+
+function newuser() {
+	document.login.newuser.value = "yes";
+	document.login.submit();
+}
+function demo() {
+	document.login.user.value = "demo";
+	document.login.passwd.value = "demo";
+	document.login.submit();
+}
+function setretry() {
+	if (gup('retry') == "nouser") {
+		document.getElementById('nouser').style.display="block";
+	}
+	else if (gup('retry') == "exists") {
+		document.getElementById('exists').style.display="block";
+	}
+	else if (gup('retry') == "incorrect") {
+		document.getElementById('incorrect').style.display="block";
+	}
+}
+</script>
+
+</head>
+<body onload="setretry();setTimeout(function(){window.scrollTo(0, 1);}, 100);">
+
+<form name = "login" action="verify_user.pl" method="post">
+<input type="hidden" name="newuser" value="no"/>
+
+<div id="header">
+	<h1>iAfford It</h1>
+	<a href="javascript:newuser()" class="nav" id="leftActionButton">New User</a>
+	<a href="javascript:document.login.submit();" class="Action">Login</a>
+</div>
+
+<h1>Credentials
+<span id="nouser" style="color:#B22222;display:none;float:right;margin-right:15px"> user not found</span>
+<span id="exists" style="color:#B22222;display:none;float:right;margin-right:15px"> user already exists</span>
+<span id="incorrect" style="color:#B22222;display:none;float:right;margin-right:15px"> password incorrect</span>
+</h1>
+
+<ul style="padding:0 5 0 5">
+	<p>Username
+	<input style="-webkit-border-radius: 6px;font: bold 17px Helvetica;color:#666;width:100%;" type="text" name="user" autocorrect="off"><p/> 
+	<p>Password
+	<input style="-webkit-border-radius: 6px;font: bold 17px Helvetica;color:#666;width:100%;" type="password" name="passwd"></p>
+</ul>
+
+<!--<h1><a style="text-decoration:none;color:rgb(76,86,108);
+" href="javascript:demo()">Click to try it out</a></h1> -->
+<ul><li style="text-align:center;">Give it try its totally free</li></ul>
+
+<ul>
+<li><a>Feature Requests</a></li>
+<li>
+<a style="text-align:center;">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_s-xclick"><input type="hidden" name="hosted_button_id" value="CWYEZNDUMSGV2"><input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"><img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"></form>
+</a></li>
+</ul>
+</form>

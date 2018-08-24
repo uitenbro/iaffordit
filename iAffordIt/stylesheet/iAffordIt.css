@@ -1,0 +1,71 @@
+    a.datasource {
+      float:right;
+      margin-right:15px;
+      text-decoration:none;
+			color: rgb(76,86,108);
+    }
+    a.excel {
+      float:right;
+      margin-right:15px;
+      text-decoration:none;
+      color:rgb(76,86,108);
+    }
+    span.tag {
+        font-size:11px;
+        color:#3366ff;
+        background-color:#cde6ff;
+        padding:4px;
+        margin:1px;
+    }
+
+    ul.graphContainer {
+      /*overflow: hidden;*/
+    }
+    table.graph {
+      font-size:0.6em;
+      width: 100%;
+      /*background-color:white; */
+    }
+    tr.graphHeader {
+      text-align: center;
+    }
+    tr.green {
+      text-align: left;
+      color: green;
+      font-weight: normal;
+    }
+    tr.black {
+      text-align: left;
+      color: black;
+      font-weight: normal;
+    }
+    tr.darkorange {
+      text-align: left;
+      color: darkorange;
+      font-weight: normal;
+    }
+    tr.red {
+      text-align: right;
+      color: red;
+      font-weight: normal;
+    }
+    tr.purple {
+      text-align: right;
+      color: purple;
+      font-weight: normal;
+    }
+    td.graphDate {
+      text-align: center;
+      white-space:nowrap;
+    }
+    td.graphBalance {
+      text-align: right;
+      white-space:nowrap;
+    }
+    td {
+      border:0px solid black;
+    }
+    
+    #chartdiv {
+      margin: 20px;
+    }
