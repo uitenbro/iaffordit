@@ -37,14 +37,14 @@ if ($in{'user'} ne "") {
 		
 		if ($in{'newuser'} eq "yes") {
 			if (`ls -l $USER_DATA_LOCATION` =~ /$in{'user'}/) {
-					print "Location:/login.html?retry=exists\n\n";
+					print "Location:login.html?retry=exists\n\n";
 			}
 			else {
 				&create_user_dir;
 				#&printp ("set cookie dir=$USER_FILES_LOCATION");
 				$cookie =  &set_cookie("dir","$USER_FILES_LOCATION",0,"/","$ENV{'HTTP_HOST'}");
 				print "$cookie\n";
-				print "Refresh:0;url=/money.pl\n\n";
+				print "Refresh:0;url=money.pl\n\n";
 			}
 		}
 		else {	
@@ -53,24 +53,24 @@ if ($in{'user'} ne "") {
 				if (&passwd_matches eq "yes") {
 					$cookie =  &set_cookie("dir","$USER_FILES_LOCATION",0,"/","$ENV{'HTTP_HOST'}");
 					print "$cookie\n";
-					#print "Location: /money.pl\n\n";
-                    print "Refresh:0;url=/money.pl\n\n";
+					#print "Location: money.pl\n\n";
+                    print "Refresh:0;url=money.pl\n\n";
 				}
 				else {
-					print "Location:/login.html?retry=incorrect\n\n";
+					print "Location:login.html?retry=incorrect\n\n";
 				} 
 			}
 			else {
-				print "Location:/login.html?retry=nouser\n\n";
+				print "Location:login.html?retry=nouser\n\n";
 			}
 		}
 	}
 	else {
-		print "Location:/login.html?retry=incorrect\n\n";
+		print "Location:login.html?retry=incorrect\n\n";
 	}
 }
 else {
-	print "Location:/login.html?retry=nouser\n\n";
+	print "Location:login.html?retry=nouser\n\n";
 }
 
 sub create_user_dir {

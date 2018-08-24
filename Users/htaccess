@@ -1,0 +1,10 @@
+<files "*">
+AuthUserFile /home/content/n/a/t/nathanu/html/Uitenbroek/Admin/.htpasswd
+AuthType Basic
+AuthName "Administrator Script"
+require valid-user
+</files>
+<Files "excel.xls">
+    Satisfy Any
+    Allow from all
+</Files>

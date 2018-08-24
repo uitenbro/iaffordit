@@ -6,11 +6,11 @@ if ($DIR ne "") {
 	$BALANCE_FILE = "$DIR/balance.dat";
 	$PASSWD_FILE = "$DIR/passwd.dat";
 	if (!((-e $TRANS_FILE) && (-e $BALANCE_FILE) && (-e $PASSWD_FILE))) {
-		print "Location: /login.html?retry=nofiles\n\n";
+		print "Location: login.html?retry=nofiles\n\n";
 	}
 }
 else {
-	print "Location: /login.html?retry=nocookie\n\n";
+	print "Location: login.html?retry=nocookie\n\n";
 }
 
 print "Content-type: text/html; charset=ISO-8859-1\n\n";
@@ -24,7 +24,7 @@ print <<TOPHTML;
 <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
 <head>
 <title>iAfford It - Balance Forecaster</title>
-<link rel="stylesheet" href="../stylesheet/iphone.css" />
+<link rel="stylesheet" href="stylesheet/iphone.css" />
 
 	
 </head>

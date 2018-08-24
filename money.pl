@@ -23,7 +23,7 @@ if ($DIR ne "") {
 	}
 }
 else {
-	print "Location: /login.html?retry=nocookie\n\n";
+	print "Location: login.html?retry=nocookie\n\n";
 }
 
 #$MONEY_URL = "http://$ENV{'HTTP_HOST'}/cgi-bin/money/money.pl";
@@ -233,7 +233,7 @@ sub printTransOpt {
 	
   	print <<OPTIONPANEL1;		
 		<div id="optionpanel$i" class="optionpanel" style="display: none;">
-		<img src="../images/cancel.png" onClick="showhide('main');showhide('optionpanel$i')" />
+		<img src="images/cancel.png" onClick="showhide('main');showhide('optionpanel$i')" />
 		<ul><li id="current_trans"><small class="$type[$i]">$pamount</small>
 		<a>$name[$i]</a>
 		<a style="text-align:left";>$pmon\/$pday\/$pyear - $freq[$i]</a></li></ul>
@@ -270,7 +270,7 @@ OPTIONPANEL2b
 sub printForecastForm {
 print <<FORECASTFORM1;
 <div id="forecast_settings" style="display: none;">
-<img src="../images/cancel.png" onClick="showhide('main');showhide('forecast_settings');"/>
+<img src="images/cancel.png" onClick="showhide('main');showhide('forecast_settings');"/>
 <ul>
 <form name="forecast" method="post" action="money.pl">
 <input type="hidden" name="save_only" value="no"/>
@@ -852,7 +852,7 @@ print "Content-type: text/html; charset=ISO-8859-1\n\n";
 
 print <<TOPHTML;
 <html>
-<meta name="viewport" content="user-scalable=no; width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <link rel="apple-touch-startup-image" href="./canvas.png" />
@@ -870,7 +870,7 @@ print <<TOPHTML;
 
 <head>
 <title>iAfford It - Balance Forecaster</title>
-<link rel="stylesheet" href="../stylesheet/iphone.css" />
+<link rel="stylesheet" href="iAffordIt/stylesheet/iphone.css" />
 	<script language="javascript"> 
 	<!--
 	var state = 'none';

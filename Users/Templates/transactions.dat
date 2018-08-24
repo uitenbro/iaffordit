@@ -1,0 +1,19 @@
+<transaction><date>04/08/2013</date><name>Paycheck</name>
+	<freq>bwk</freq><type>dep</type><amount>1000.00</amount><tags></tags></transaction>
+
+<transaction><date>04/12/2013</date><name>Mortgage</name>
+	<freq>mon</freq><type>bill</type><amount>500.00</amount><tags>automatic</tags></transaction>
+
+<transaction><date>04/15/2013</date><name>Car Payment</name>
+	<freq>mon</freq><type>bill</type><amount>500.00</amount><tags>ebill</tags></transaction>
+
+<transaction><date>04/20/2013</date><name>Food</name>
+	<freq>wkl</freq><type>bill</type><amount>100.00</amount><tags></tags></transaction>
+
+<transaction><date>04/22/2013</date><name>Utility Bills</name>
+	<freq>mon</freq><type>bill</type><amount>250.00</amount><tags>check</tags></transaction>
+
+<transaction><date>04/28/2013</date><name>Tuition</name>
+	<freq>qtr</freq><type>bill</type><amount>750.00</amount><tags>check</tags></transaction>
+
+
