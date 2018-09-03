@@ -863,6 +863,9 @@ print <<TOPHTML;
 <script language="javascript" type="text/javascript" src="iAffordIt/jqplot/jquery.jqplot.min.js"></script>
 <script language="javascript" type="text/javascript" src="iAffordIt/jqplot/plugins/jqplot.barRenderer.js"></script>
 <script language="javascript" type="text/javascript" src="iAffordIt/jqplot/plugins/jqplot.categoryAxisRenderer.js"></script>
+<script language="javascript" type="text/javascript" src="iAffordIt/jqplot/plugins/jqplot.canvasTextRenderer.js"></script>
+<script language="javascript" type="text/javascript" src="iAffordIt/jqplot/plugins/jqplot.canvasAxisLabelRenderer.js"></script>
+<script language="javascript" type="text/javascript" src="iAffordIt/jqplot/plugins/jqplot.canvasAxisTickRenderer.js"></script>
 <script language="javascript" type="text/javascript" src="iAffordIt/jqplot/plugins/jqplot.pointLabels.js"></script>
 <script language="javascript" type="text/javascript" src="iAffordIt/jqplot/plugins/jqplot.highlighter.js"></script>
 <link rel="stylesheet" type="text/css" href="iAffordIt/jqplot/jquery.jqplot.css" />

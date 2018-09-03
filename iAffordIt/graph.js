@@ -91,63 +91,52 @@ function printVerticalStripChart(Array) {
 
     //console.log(dataArray);
 
-    var forecastPlot = $.jqplot('chartdiv', [//green, orange, 
-            black, //red, purple, 
-            dataArray], {
+    var forecastPlot = $.jqplot('chartdiv', [black, dataArray], {
         height: minHeight,
-        title: "<span style='font-size: 14px; position: relative; top: -35px;'>Trend $" + trendDollarsPerWeek.toFixed(2) + " per week</span>",
-        //seriesColors: ["green", "orange", "black", "red", "purple", "blue"],
-        seriesColors: [//"lightgray", "lightgray", 
-            "black", //"lightgray", "lightgrey", 
+        title: "<span style='font-size: 14px;'>Trend $" + trendDollarsPerWeek.toFixed(2) + " per week</span>",
+        seriesColors: [
+            "black",  
             "#0099FF"],
         seriesDefaults: {
-            //renderer:$.jqplot.BarRenderer,
-            // Show point labels to the right ('e'ast) of each bar.
-            // edgeTolerance of -15 allows labels flow outside the grid
-            // up to 15 pixels.  If they flow out more than that, they
-            // will be hidden.
-            //pointLabels: { labels: labels, show: true, location: 'se', edgeTolerance: 0 },
-            // Rotate the bar shadow as if bar is lit from top right.
-            //shadowAngle: 0,
-            // Here's where we tell the chart it is oriented horizontally.
+            // tell the chart it is oriented horizontally.
             rendererOptions: {
                  barDirection: 'horizontal',
-                //waterfall:true,
             },
-            showMarker: false 
+            // default to not showing dots at the points
+            showMarker: false, 
+            // default series to x2axis 
+            xaxis: 'x2axis',
         },
         series: [
-        //{},{},
-        {}, //{},{},
-        {
-            showMarker: true,
-            pointLabels: {labels: labelsArray, show: true, location: 'se', edgeTolerance: 0 },
-        }
+            {},
+            {
+                showMarker: true,
+                pointLabels: {labels: labelsArray, show: true, location: 'se', edgeTolerance: 0 },
+            }
         ],
         axes: {
-            //x2axis: {
-            //    show: true,
-            //    showLabel: true,
-            //    label: "Trend $" + trendDollarsPerWeek.toFixed(2) + " per week",
-            //},
-            xaxis: {
-                tickOptions: {formatString: "$%'d", angle: -40},
-                rendererOptions:{
-                    tickRenderer:$.jqplot.CanvasAxisTickRenderer
+            // Use x2axis to put the labels on top
+            x2axis: {
+                show: true,
+                tickOptions: {
+                    formatString: "$%'d", 
+                    angle: -40
                 },
-                
+                rendererOptions:{
+                   tickRenderer:$.jqplot.CanvasAxisTickRenderer
+                },
             },
             yaxis: {
                 renderer: $.jqplot.CategoryAxisRenderer,
-                //renderer:$.jqplot.DateAxisRenderer,
-                //tickOptions: {
-                //    formatter: function(format, value) { return dataArray[value-1] }
-                //}
-            }
+                tickOptions: {
+                    angle: -40,
+                    show: true,
+                }, 
+                rendererOptions: {
+                    tickRenderer:$.jqplot.CanvasAxisTickRenderer,
+                },              
+            },
         },
-        //highlighter: {
-        //    show: true,
-        //}, 
     });
 
     //console.log(forecastPlot);
