@@ -140,6 +140,8 @@ else {
   print "value=\"wkl\">weekly</option>\n<option ";
   if ($freq eq "bwk") {print "selected=\"selected\" ";}
   print "value=\"bwk\">bi-weekly</option>\n<option ";
+  if ($freq eq "twk") {print "selected=\"selected\" ";}
+  print "value=\"twk\">tri-weekly</option>\n<option ";
   if (($freq eq "mon") || ($freq eq "")) {print "selected=\"selected\" ";}
   print "value=\"mon\">monthly</option>\n<option ";
   if ($freq eq "bmn") {print "selected=\"selected\" ";}

@@ -305,7 +305,11 @@ print ">Six Months</option>\n<option value=\"365\"";
 
 if (($duration == 365) || ($duration == "")) {print " selected=\"selected\" ";}
 
-print ">One Year</option>\n<option value=\"1095\"";
+print ">One Year</option>\n<option value=\"730\"";
+
+if ($duration == 730) {print " selected=\"selected\" ";}
+
+print ">Two Years</option>\n<option value=\"1095\"";
 
 if ($duration == 1095) {print " selected=\"selected\" ";}
 
@@ -434,6 +438,11 @@ sub calcNextDate {
   elsif ($freq[$id] eq "bwk") {
 
     ($tday[$id],$tmon[$id],$tyear[$id]) = &stepDays($tday[$id],$tmon[$id],$tyear[$id],14);
+
+  }
+  elsif ($freq[$id] eq "twk") {
+
+    ($tday[$id],$tmon[$id],$tyear[$id]) = &stepDays($tday[$id],$tmon[$id],$tyear[$id],21);
 
   }
 
@@ -802,6 +811,7 @@ switch ($duration) {
 	case "91" {print "Three Months\n";}
 	case "183" {print "Six Months\n";}
 	case "365" {print "One Year\n";}
+	case "730" {print "Two Years\n";}
 	case "1095" {print "Three Years\n";}
 	case "1825" {print "Five Years\n";}
 	else {print "$duration days\n";}

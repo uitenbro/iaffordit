@@ -188,6 +188,9 @@ sub calcNextDate {
   elsif ($freq[$id] eq "bwk") {
     ($tday[$id],$tmon[$id],$tyear[$id]) = &stepDays($tday[$id],$tmon[$id],$tyear[$id],14);
   }
+  elsif ($freq[$id] eq "twk") {
+    ($tday[$id],$tmon[$id],$tyear[$id]) = &stepDays($tday[$id],$tmon[$id],$tyear[$id],21);
+  }
   elsif ($freq[$id] eq "one") {
     $tyear[$id] = 9999;
   }
