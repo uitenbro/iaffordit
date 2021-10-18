@@ -1,5 +1,6 @@
-#!/usr/bin/perl
- 
+#!/usr/bin/perl -w
+use cPanelUserConfig;
+
 #$TRANS_FILE = "/usr/home/web/n/nathanu/cgi-bin/money/transactions.dat";
 #$MONEY_URL = "http://snow.prohosting.com/nathanu/cgi-bin/money/money.pl";
 

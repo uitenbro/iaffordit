@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
- 
+use cPanelUserConfig; 
+
 use File::Copy;
 use CGI; # load the CGI.pm module
 my $GET = new CGI; # create a new object
@@ -44,7 +45,8 @@ if ($in{'user'} ne "") {
 				#&printp ("set cookie dir=$USER_FILES_LOCATION");
 				$cookie =  &set_cookie("dir","$USER_FILES_LOCATION",0,"/","$ENV{'HTTP_HOST'}");
 				print "$cookie\n";
-				print "Refresh:0;url=money.pl\n\n";
+				#print "Refresh:0;url=money.pl\n\n";
+				print "Location:money.pl\n\n";
 			}
 		}
 		else {	
@@ -53,8 +55,8 @@ if ($in{'user'} ne "") {
 				if (&passwd_matches eq "yes") {
 					$cookie =  &set_cookie("dir","$USER_FILES_LOCATION",0,"/","$ENV{'HTTP_HOST'}");
 					print "$cookie\n";
-					#print "Location: money.pl\n\n";
-                    print "Refresh:0;url=money.pl\n\n";
+					print "Location: money.pl\n\n";
+                    #print "Refresh:0;url=money.pl\n\n";
 				}
 				else {
 					print "Location:login.html?retry=incorrect\n\n";

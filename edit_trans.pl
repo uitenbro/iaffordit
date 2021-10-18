@@ -1,4 +1,5 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
+use cPanelUserConfig;
 
 $DIR = &get_cookie("dir");
 if ($DIR ne "") {

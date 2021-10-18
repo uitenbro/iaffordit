@@ -1,5 +1,5 @@
-#!/usr/bin/perl
- 
+#!/usr/bin/perl -w
+use cPanelUserConfig;
 use Switch;
 
 #$TRANS_FILE = "/usr/home/web/n/nathanu/cgi-bin/money/transactions.dat";
