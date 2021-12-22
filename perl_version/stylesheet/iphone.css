@@ -1,4 +1,4 @@
-/*
+/* 
 
 	Universal iPhone UI Kit 1.0
 	Author: Diego Martín Lafuente.
@@ -6,14 +6,14 @@
 	AIM: Minidixier
 	Licence: AGPLv3
 	date: 2008-08-09
-
+	
 	URL: www.minid.net
 	SVN URL: http://code.google.com/p/iphone-universal/source/checkout
 	Download: http://code.google.com/p/iphone-universal/downloads/list
-
+	
 	*/
-
-
+	
+	
 	body {
 		background: rgb(197,204,211) url(../images/stripes.png);
 		font-family: Helvetica;
@@ -22,7 +22,7 @@
 		-webkit-user-select: none;
 		-webkit-text-size-adjust: none;
 		}
-
+		
 
 
 		h1 {
@@ -33,19 +33,27 @@
 			}
 
 
-		/* standard header on body */
 
+
+
+
+
+
+
+
+		/* standard header on body */
+		
 		div#header + h1, ul + h1 {
 			color: rgb(76,86,108);
 			font: bold 18px Helvetica;
 			text-shadow: #fff 0 1px 0;
-			margin: 15px 0 0 10px;
+			margin: 15px 0 0 10px;  
 			}
-
+		
 
 
 		/* standard paragraph on body */
-
+		
 		ul + p, ul.data + p + p, ul.form + p + p {
 			color: rgb(76,86,108);
 			font: 14px Helvetica;
@@ -55,6 +63,7 @@
 			}
 
 
+		
 
 
 
@@ -66,8 +75,7 @@
 
 
 
-
-
+		
 		/* headers */
 
 		div#header {
@@ -134,7 +142,7 @@
 							border-width: 0 8px 0 14px;
 							-webkit-border-image: url(../images/toolButton.png) 0 8 0 14;*/
 							}
-
+							
 						div#header #leftActionButton {
 							left: 6px;
 							right: auto;
@@ -142,18 +150,18 @@
 							max-width: 55px;
 							border-width: 0 8px 0 14px;
 							-webkit-border-image: url(../images/toolButton.png) 0 8 0 14;*/
-							}
+							}	
 						.Action {
 							border-width: 0 5px;
 							-webkit-border-image: url(../images/actionButton.png) 0 5 0 5;
 						}
 
 
-
+						
 						div#header ul {
 							margin-top: 15px;
 						}
-
+						
 						div#header p {
 							color: rgb(60,70,80);
 							font-weight: bold;
@@ -170,7 +178,7 @@
 							white-space: nowrap;
 							overflow: hidden;
 						}
-
+						
 						div.pre {
 							height: 60px;
 							}
@@ -178,76 +186,76 @@
 
 							div.pre h1 {
 								top: 18px !important;
-								}
-
+								} 
+								
 							div.pre a {
 								top: 25px !important;
 								right: 6px;
 								}
-
+								
 							div.pre a#Backbutton {
 								left: 6px !important;
-							}
-
-
-
-
-
+							}	
+								
+								
+								
+		
+		
 		/***** List (base) ******/
-
+		
 		ul {
 			color: black;
 			background: #fff;
 			border: 1px solid #B4B4B4;
 			font: bold 17px Helvetica;
-			padding: 0;
+			padding: 0;	   
 			margin: 15px 10px 17px 0;
 			-webkit-border-radius: 8px;
 			}
-
-
+		
+		
 			ul li {
 				color: #666;
 				border-top: 1px solid #B4B4B4;
-				list-style-type: none;
+				list-style-type: none;	
 				padding: 10px 10px 10px 10px;
 				}
+				
 
-
-
+				
 				/* when you have a first LI item on any list */
-
-				li:first-child {
+				
+				li:first-child {	
 					border-top: 0;
 					-webkit-border-top-left-radius: 8px;
 					-webkit-border-top-right-radius: 8px;
 					}
 
-				li:last-child {
+				li:last-child {	
 					-webkit-border-bottom-left-radius: 8px;
 					-webkit-border-bottom-right-radius: 8px;
 					}
-
-
+					
+					
 				/* universal arrows */
-
+				
 				ul li.arrow {
 					background-image: url(../images/chevron.png);
 					background-position: right center;
 					background-repeat: no-repeat;
 					}
-
-
+					
+					
 				#plastic ul li.arrow, #metal ul li.arrow {
 					background-image: url(../images/chevron_dg.png);
 					background-position: right center;
 					background-repeat: no-repeat;
 					}
-
-
-
+					
+									
+				
 				/* universal links on list */
-
+				
 				ul li a, li.img a + a {
 					color: #000;
 					text-decoration: none;
@@ -259,13 +267,13 @@
 					margin: -10px;
 					-webkit-tap-highlight-color:rgba(0,0,0,0);
 				}
-
+				
 					ul li.img a + a {
 						margin: -10px 10px -20px -5px;
 						font-size: 17px;
 						font-weight: bold;
 					}
-
+					
 					ul li.img a + a + a {
 							font-size: 14px;
 							font-weight: normal;
@@ -273,13 +281,13 @@
 							margin-bottom: -10px;
 							margin-top: 0;
 						}
-
-
+						
+						
 						ul li.img a + small + a {
 							margin-left: -5px;
 						}
-
-
+						
+						
 						ul li.img a + small + a + a {
 							margin-left: -10px;
 							margin-top: -20px;
@@ -287,13 +295,13 @@
 							font-size: 14px;
 							font-weight: normal;
 							}
-
+							
 							ul li.img a + small + a + a + a {
 								margin-left: 0px !important;
 								margin-bottom: 0;
 							}
-
-
+				
+				
 					ul li a + a {
 						color: #000;
 						font: 14px Helvetica;
@@ -304,7 +312,7 @@
 						margin: 0;
 						padding: 0;
 						}
-
+						
 						ul li a + a + a, ul li.img a + a + a + a, ul li.img a + small + a + a + a {
 							color: #666;
 							font: 13px Helvetica;
@@ -315,15 +323,15 @@
 							display: block;
 							padding: 0;
 						}
-
-
-
-
-
+						
+						
+					
+		
+		
 				/* standard mini-label */
+				
 
-
-
+			
 				ul li a.smalldep {
 					color: #369;
 					font: 14px Helvetica; /* edit for trans list */
@@ -348,19 +356,19 @@
 					float: right;
 					padding: 17px 8px; /* edit for trans list */
 					}
-
-
-
-
-
-
-
-
-
+			
+			
+			
+			
+			
+			
+			
+			
+					
 					ul li.arrow small {
 						padding: 0 15px;
 					}
-
+					
 					ul li small.counter {
 						font-size: 17px !important;
 						line-height: 13px !important;
@@ -373,39 +381,39 @@
 						width: auto;
 						margin-top: 2px;
 					}
-
-
+					
+					
 					ul li.arrow small.counter {
 						margin-right: 15px;
 					}
-
-
-
-
+					
+					
+					
+	
 					/* resize without labels */
-
+					
 					ul li.arrow a {
 						width: 95%;
 						}
-
+					
 						/* with labels */
-
+						
 						ul li small + a {
 							width: 75%;
 						}
-
+						
 						ul li.arrow small + a {
 							width: 70%;
 						}
-
-
-
+						
+		
+		
 		/* images */
-
+		
 			ul li.img {
 				padding-left: 115px;
 			}
-
+		
 			ul li.img a.img {
 				background: url(../images/standard-img.png) no-repeat;
 				display: inline-block;
@@ -414,20 +422,20 @@
 				margin: -10px 0 -20px -115px;
 				float: left;
 			}
-
-
-
+		
+		
+		
 		/* individuals */
-
-
-
+		
+		
+		
 			ul.individual {
 				border: 0;
 				background: none;
 				clear: both;
 				height: 45px;
 			}
-
+			
 				ul.individual li {
 					color: rgb(183,190,205);
 					background: white;
@@ -441,13 +449,13 @@
 					display: block;
 					padding: 11px 10px 14px 10px;
 					}
-
+				
 					ul.individual li + li {
 						float: right;
-
+						
 					}
-
-
+					
+					
 					ul.individual li a {
 						color: rgb(50,79,133);
 						line-height: 16px;
@@ -455,15 +463,15 @@
 						padding: 11px 10px 14px 10px;
 						-webkit-border-radius: 8px;
 					}
-
+					
 						ul.individual li a:hover {
 							color: #fff;
 							background: #36c;
 							}
-
-
-
-
+							
+							
+							
+							
 							/* Normal lists and metal */
 
 							body#normal h4 {
@@ -539,7 +547,7 @@
 
 										body#metal ul li a:hover {
 											color: rgb(0,0,0);
-										}
+										}	
 
 											body#metal ul li:hover small {
 												color: inherit;
@@ -567,15 +575,15 @@
 											padding-right: 0;
 											line-height: 17px;
 										}
-
-
+										
+										
 										body#metal ul li.arrow {
 											background: url(../images/bgMetal.png) top left repeat-x,
 											url(../images/chevron_dg.png) right center no-repeat;
 										}
-
-
-
+										
+										
+																
 										/* option panel */
 
 											div#optionpanel {
@@ -607,7 +615,6 @@
 												right: 0;
 												top:0;
 												height:100%;
-                        display: none;
 												}
 											div#forecast_settings {
 												background: url(../images/bglight.png) top left repeat-x;
@@ -643,9 +650,9 @@
 													color: #fff;
 													text-shadow: #000 0 1px 0;
 												}
-
-
-
+										
+										
+										
 										/***** BUTTONS *****/
 
 										.button {
@@ -669,29 +676,29 @@
 												}
 
 											.black { -webkit-border-image: url(../images/grayButton.png) 0 14 0 14; }
-
-
+											
+											
 /***** FORMS *****/
 
 /* fields list */
-
+		
 		ul.form {
-
+			
 		}
-
+		
 			ul.form li {
 				padding: 7px 10px;
 			}
-
-			ul.form li.error { border: 2px solid red; }
+			
+			ul.form li.error { border: 2px solid red; }			
 			ul.form li.error + li.error { border-top: 0; }
-
+			
 			ul.form li:hover { background: #fff; }
-
+		
 			ul li input[type="text"], ul li input[type="password"], ul li textarea, ul li select, input[type="number"], input[type="date"] {
 				color: #777;
 				background: #fff url(../.png); /* this is a hack due the default input shadow that iphones uses on textfields */
-				border: 0;
+				border: 0;				
 				font: normal 17px Helvetica;
 				padding: 0;
 				display: inline-block;
@@ -699,13 +706,13 @@
 				width: 100%;
 				-webkit-appearance: textarea;
 				}
-
+						
 				ul li textarea {
 					height: 120px;
 					padding: 0;
 					text-indent: -2px;
 				}
-
+				
 				ul li select {
 					text-indent: 0px;
 					background: transparent url(../images/chevron.png) no-repeat 103% 3px;
@@ -713,13 +720,13 @@
 					margin-left: -6px;
 					width: 104%;
 				}
-
+				
 				ul li input[type="checkbox"], ul li input[type="radio"] {
 					margin: 0px;
 					color: rgb(50,79,133);
 					padding: 10px 10px;
 					}
-
+				
 				ul li input[type="checkbox"]:after, ul li input[type="radio"]:after {
 					content: attr(title);
 					font: 17px Helvetica;
@@ -727,9 +734,9 @@
 					width: 246px;
 					margin: -12px 0 0 17px;
 					}
-
-
-
+					
+					
+					
 					/**** INFORMATION FIELDS ****/
 
 					ul.data li h4 {
@@ -743,9 +750,9 @@
 							font-weight: normal;
 							margin: 0;
 							}
-
+							
 							ul.data li p + p { margin-top: 10px; }
-
+							
 
 							ul.data li {
 								background: none;
@@ -758,15 +765,15 @@
 								color: #2E3744;
 								text-decoration: underline;
 							}
-
-
+							
+							
 							ul.field li small {
 								position: absolute;
 								right: 25px;
 								margin-top: 3px;
 								z-index: 3;
 							}
-
+					
 							ul.field li h3 {
 								color: rgb(76,86,108);
 								width: 25%;
@@ -780,7 +787,7 @@
 								white-space: nowrap;
 								padding: 0;
 								}
-
+							
 								ul.field li a {
 									font-size: 13px;
 									line-height: 18px;
@@ -792,7 +799,7 @@
 									margin: 0 0 0 0;
 									vertical-align: top;
 									}
-
+									
 								ul.field li big {
 									font-size: 13px;
 									line-height: 18px;
@@ -802,20 +809,20 @@
 									display: inline-block;
 									width: 60%;
 									}
-
-
-
-
-
-
+									
+									
+									
+									
+									
+																
 								ul.field li small {
 									font-size: 13px;
 									font-weight: bold;
 								}
-
-
+							
+						
 						/* this is for profiling */
-
+							
 						ul.profile {
 							border: 0;
 							background: none;
@@ -823,7 +830,7 @@
 							min-height: 62px;
 							position: relative;
 							}
-
+							
 							ul.profile li {
 								background: #fff url(../images/profile-user.png) no-repeat;
 								border: 1px solid #B4B4B4;
@@ -833,48 +840,48 @@
 								-webkit-box-sizing: border-box;
 								float: left;
 								}
-
+							
 							ul.profile li + li {
 								border: 0;
 								background: none;
 								width: 70%;
 								}
-
-
+								
+							
 								ul.profile li + li h2, ul.profile li + li p {
 									color: rgb(46,55,68);
 									text-shadow: #fff 0 1px 0;
 									margin: 0;
 								}
-
+								
 								ul.profile li + li h2 {
 									font: bold 18px/22px Helvetica;
 									text-overflow: ellipsis;
 									white-space: nowrap;
 									overflow: hidden;
 									}
-
+									
 								ul.profile li + li p {
 									font: 14px/18px Helvetica;
 									text-overflow: ellipsis;
 									white-space: nowrap;
 									overflow: hidden;
 									}
-
-
+								
+								
 								/* any A element inside this kind of field list will scale 62x62 */
-
+								
 								ul.profile li a {
 									display: block;
 									width: 62px;
 									height: 62px;
 									color: transparent;
 								}
-
+									
 
 
 	/***** PLASTIC LISTS *****/
-
+	
 	body#plastic {
 		margin: 0;
 		padding: 0;
@@ -889,44 +896,44 @@
 		border-top: 0;
 		background-color: rgb(173,173,173);
 		}
-
-
+		
+		
 		body#plastic ul li {
 			-webkit-border-radius: 0;
 			border-top: 1px solid rgb(191,191,191);
 			border-bottom: 1px solid rgb(157,157,157);
 		}
-
-
+		
+		
 			body#plastic ul li:nth-child(odd) {
 				background-color: rgb(152,152,152);
 				border-top: 1px solid rgb(181,181,181);
 				border-bottom: 1px solid rgb(138,138,138);
 			}
-
-
+		
+		
 		body#plastic ul + p {
 			font-size: 11px;
 			color: #2f3237;
 			text-shadow: none;
-			padding: 10px 10px;
+			padding: 10px 10px;		
 			}
-
+			
 			body#plastic ul + p strong {
 				font-size: 14px;
 				line-height: 18px;
 				text-shadow: #fff 0 1px 0;
 			}
-
+			
 			body#plastic ul li a {
 				text-shadow: rgb(211,211,211) 0 1px 0;
 			}
-
+			
 			body#plastic ul li:nth-child(odd) a {
 				text-shadow: rgb(191,191,191) 0 1px 0;
 			}
-
-
+			
+			
 			body#plastic ul li small {
 				color: #3C3C3C;
 				text-shadow: rgb(211,211,211) 0 1px 0;
@@ -935,22 +942,22 @@
 				text-transform: uppercase;
 				line-height: 24px;
 				}
-
-
-
+				
+				
+				
 	/**** MINI & BIG BANNERS ****/
-
+	
 			#plastic ul.minibanner, #plastic ul.bigbanner {
 				margin: 10px;
 				border: 0;
 				height: 81px;
 				clear: both;
 				}
-
+				
 				#plastic ul.bigbanner {
 					height: 140px !important;
 				}
-
+				
 				#plastic ul.minibanner li {
 					border: 1px solid rgb(138,138,138);
 					background-color: rgb(152,152,152);
@@ -960,7 +967,7 @@
 					-webkit-border-radius: 5px;
 					padding: 0;
 					}
-
+					
 				#plastic ul.bigbanner li {
 					border: 1px solid rgb(138,138,138);
 					background-color: rgb(152,152,152);
@@ -971,12 +978,12 @@
 					padding: 0;
 					margin-bottom: 4px;
 					}
-
+					
 					#plastic ul.minibanner li:first-child {
 						margin-right: 6px;
 					}
-
-
+					
+					
 					#plastic ul.minibanner li a {
 						color: transparent;
 						text-shadow: none;
@@ -984,7 +991,7 @@
 						width: 145px;
 						height: 81px;
 						}
-
+						
 					#plastic ul.bigbanner li a {
 						color: transparent;
 						text-shadow: none;
@@ -992,120 +999,120 @@
 						width: 296px;
 						height: 145px;
 						}
-
-
-
+		
+	
+	
 	/**** CHAT ****/
-
-
+	
+	
 	body#chat {
 		background: #DBE1ED;
 		}
-
+		
 		body#chat div.bubble {
 			margin: 10px 10px 0 0px;
 			width: 80%;
 			clear: both;
 		}
-
-
-
+		
+		
+		
 		body#chat div.right {
 			float: right;
 			}
-
+			
 		body#chat div.left {
 			float: left;
 			}
-
-
+			
+			
 			body#chat div.right p {
 				border-width: 10px 20px 12px 10px;
 			}
-
+			
 			body#chat div.left p {
 				border-width: 10px 10px 12px 20px;
 			}
-
+			
 			/* lefties */
-
+			
 			body#chat div.left p.lime {
 				-webkit-border-image: url(../images/chat_bubbles_lime_l.png) 10 10 13 19;
 				}
-
+				
 			body#chat div.left p.lemon {
 				-webkit-border-image: url(../images/chat_bubbles_lemon_l.png) 10 10 13 19;
 				}
-
+				
 			body#chat div.left p.orange {
 				-webkit-border-image: url(../images/chat_bubbles_orange_l.png) 10 10 13 19;
 				}
-
+				
 			body#chat div.left p.aqua {
 				-webkit-border-image: url(../images/chat_bubbles_aqua_l.png) 10 10 13 19;
 				}
-
+				
 			body#chat div.left p.purple {
 				-webkit-border-image: url(../images/chat_bubbles_purple_l.png) 10 10 13 19;
 				}
-
+				
 			body#chat div.left p.pink {
 				-webkit-border-image: url(../images/chat_bubbles_pink_l.png) 10 10 13 19;
 				}
-
+				
 			body#chat div.left p.graphite {
 				-webkit-border-image: url(../images/chat_bubbles_graphite_l.png) 10 10 13 19;
 				}
-
+				
 			body#chat div.left p.clear {
 				-webkit-border-image: url(../images/chat_bubbles_clear_l.png) 10 10 13 19;
 				}
-
-
-
-
-			/*rights*/
-
+				
+				
+				
+				
+			/*rights*/	
+			
 			body#chat div.right p.aqua {
 				-webkit-border-image: url(../images/chat_bubbles_aqua_r.png) 10 19 13 10;
 				}
-
+				
 			body#chat div.right p.lemon {
 				-webkit-border-image: url(../images/chat_bubbles_lemon_r.png) 10 19 13 10;
 				}
-
+				
 			body#chat div.right p.lime {
 				-webkit-border-image: url(../images/chat_bubbles_lime_r.png) 10 19 13 10;
 				}
-
+				
 			body#chat div.right p.purple {
 				-webkit-border-image: url(../images/chat_bubbles_purple_r.png) 10 19 13 10;
 				}
-
+				
 			body#chat div.right p.pink {
 				-webkit-border-image: url(../images/chat_bubbles_pink_r.png) 10 19 13 10;
 				}
-
+				
 			body#chat div.right p.graphite {
 				-webkit-border-image: url(../images/chat_bubbles_graphite_r.png) 10 19 13 10;
 				}
-
+				
 			body#chat div.right p.clear {
 				-webkit-border-image: url(../images/chat_bubbles_clear_r.png) 10 19 13 10;
 				}
-
-
-
-
-
-
-
+				
+				
+				
+				
+				
+			
+		
 		body#chat div.bubble p {
 			color: #000;
 			font-size: 16px;
 			margin: 0;
 		}
-
+		
 			body#chat div.bubble + p {
 				color: #666;
 				text-align: center;
@@ -1115,26 +1122,26 @@
 				padding: 10px 0 0 0;
 				clear: both;
 			}
-
-
-
-
-
-
+		
+		
+		
+		
+		
+		
 		/**** image grids ****/
-
-
+		
+		
 		body#images {
 			background: #fff;
 			margin: 0;
 		}
-
+		
 			body#images ul {
 				margin: 4px 4px 4px 0;
 				border: 0;
 				-webkit-border-radius: 0;
 				}
-
+				
 				body#images ul li {
 					border: 1px solid #C0D5DD;
 					-webkit-border-radius: 0;
@@ -1145,7 +1152,7 @@
 					background: #F4FBFE url(../images/image-loading.gif) no-repeat center center;
 					padding: 0;
 					}
-
+					
 					body#images ul li a {
 						display: block;
 						width: 100%;
@@ -1153,30 +1160,31 @@
 						margin: 0;
 						padding: 0;
 					}
-
-
+		
+		
 		/*** BLANK PAGES ***/
-
+		
 		body#blank {
 			background: #fff;
 		}
-
-
+		
+		
 		body#blank p {
 			color: #898989;
 			text-align: center;
 			margin: 250px 0 0 0;
 			}
-
+			
 
 
 
 			/**** ICONFIED LIST ****/
-
-
+			
+			
 			ul li a img.ico, ul li img.ico {
 				float: left;
 				display: block;
 				margin: -4px 10px -4px -1px;
 			}
 
+		

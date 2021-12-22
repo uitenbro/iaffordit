@@ -1,8 +1,1 @@
-DirectoryIndex money.pl
-AddHandler application/x-httpd-alt-php56___lsphp .php
-Options -Indexes
-AddHandler cgi-script .cgi .pl
-Options +ExecCGI
-AddHandler server-parsed .html
-AddHandler server-parsed .shtml
-AddHandler server-parsed .htm
+DirectoryIndex iAffordIt.html
