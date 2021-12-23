@@ -1,32 +1,61 @@
 var transData = {};
 var forecastData = {};
+var storedData = {};
+var acctKey = 0
 var state = 'none';
 
 function readStoredData() {
-    transData = JSON.parse(localStorage.getItem("transData"));
-    forecastData = JSON.parse(localStorage.getItem("forecastData"));
+    storedData = JSON.parse(localStorage.getItem("storedData"));
+    setActiveAccount()
+    acctName = storedData.accounts[acctKey].name;
+    transData = storedData.accounts[acctKey].transData;
+    forecastData = storedData.accounts[acctKey].forecastData;
     //console.log (transData, forecastData);
 }
 
-function setTransData ( items) {
-  console.log(items);
-  transData = JSON.parse(localStorage.getItem("transData"));
-  forecastData = JSON.parse(localStorage.getItem("forecastData"));
-
+function setActiveAccount() {
+  // if key exists in storedData set it 
+  acctKey = storedData.activeAccount;
+  // TODO: else use the first account
 }
 
+// function setTransData (items) {
+//   console.log(items);
+//   transData = JSON.parse(localStorage.getItem("transData"));
+//   forecastData = JSON.parse(localStorage.getItem("forecastData"));
+
+// }
+
+// function updateStoredAccountData(item, value) {
+
+//     if (item == "transData") {
+//       storedData.accounts[acctKey].transData = value;
+//     }    
+//     else if (item == "forecastData") {
+//       storedData.accounts[acctKey].forecastData = value;
+//     }
+//     else if (item == "name") {
+//       storedData.accounts[acctKey].name = value;
+//     }
+//     else if (item == "activeAccount") {
+//       storedData.activeAccount = value;
+//     }
+//     updateStoredData("storedData", storedData);
+// }
+
 function updateStoredData(item, value) {
-    localStorage.setItem(item, JSON.stringify(value));
+  localStorage.setItem(item, JSON.stringify(value));
 }
 
 function initializeStoredData () {
 
-  if (localStorage.getItem('transData')) {
-    //console.log('found stored transData');
+  if (localStorage.getItem('storedData')) {
+    //console.log('found local storedData');
   }
   else {
-    //console.log('create default transData');
-    localStorage.setItem('transData', '{}');
+    //console.log('create default data');
+    storedData.accounts = {}
+    acctKey = createNewAccount("New Account")
     var day = 1000*60*60*24;
     var date1 = new Date();
     var date2 = new Date();
@@ -38,20 +67,14 @@ function initializeStoredData () {
     var key3 = createNewTransaction('Monthly Deposit', date3, 'mon', 'dep', 1500, 'two');
     var key4 = createNewTransaction('Quarterly Bill', date4, 'qtr', 'bill', 100, 'three');
     var key5 = createNewTransaction('Monthly Expense', date5, 'mon', 'bill', 250, 'five');
-    updateStoredData('transData',transData);
-  }
-
-
-  if (localStorage.getItem('forecastData')) {
-    //console.log('found stored forecastData');
-  }
-  else {
-    //console.log('create default forecastData');
-    localStorage.setItem('forecastData', '{' +
-                         '"startBalance" : 1500, ' +
-                         '"forecastDuration" : 365, ' +
-                         '"graphTick" : 100' +
-                         '}');
+    storedData.accounts[acctKey].transData = transData
+    forecastData = {
+        "startBalance" : 1500, 
+        "forecastDuration" : 365,
+        "graphTick" : 100,
+    };
+    storedData.accounts[acctKey].forecastData = forecastData
+    updateStoredData('storedData',storedData);
   }
 }
 
@@ -101,7 +124,8 @@ function updateTransaction(key, action) {
           createNewTransaction(name, date, freq, type, amount, tags);
       }
     }
-    updateStoredData('transData', transData);
+    storedData.accounts[acctKey].transData = transData
+    updateStoredData('storedData', storedData);
 }
 
 function createNewTransaction (name, date, freq, type, amount, tags) {
@@ -110,6 +134,15 @@ function createNewTransaction (name, date, freq, type, amount, tags) {
     //console.log(transData[key]);
     transData[key] = {};
     updateExistingTransaction (key, "all", name, date, freq, type, amount, tags)
+    return key;
+}
+
+function createNewAccount (name) {
+    var key = generateKey();
+    //console.log("createNew");
+    //console.log(transData[key]);
+    storedData.activeAccount = key
+    storedData.accounts[key] = {"name":name}
     return key;
 }
 
@@ -229,7 +262,8 @@ function updateForecastSettings(form) {
   forecastData.graphTick = parseInt(document.forecastSettings.graphTick.value);
   forecastData.startBalance  = parseFloat(document.forecastSettings.startBalance.value);
   forecastData.forecastDuration = parseInt(document.forecastSettings.forecastDuration.value);
-  updateStoredData('forecastData', forecastData);
+  storedData.accounts[acctKey].forecastData = forecastData;
+  updateStoredData('storedData', storedData);
 }
 
 function forecastBalance() {

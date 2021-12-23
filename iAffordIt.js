@@ -6,7 +6,7 @@ function printMain(select = 'transactions') {
     main.id = 'main';
 
     var heading = document.createElement('h1');
-    heading.appendChild(document.createTextNode("Forecast Settings"));
+    heading.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
     var dataSource = document.createElement('a');
     dataSource.className = "datasource";
     dataSource.appendChild(document.createTextNode("local storage"));
