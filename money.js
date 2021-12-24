@@ -3,6 +3,7 @@ var forecastData = {};
 var storedData = {};
 var acctKey = 0
 var state = 'none';
+var forecastedBalance = [];
 
 function readStoredData() {
     storedData = JSON.parse(localStorage.getItem("storedData"));
@@ -11,6 +12,12 @@ function readStoredData() {
     transData = storedData.accounts[acctKey].transData;
     forecastData = storedData.accounts[acctKey].forecastData;
     //console.log (transData, forecastData);
+
+    if (localStorage.getItem('googleData')) {
+        //console.log('found stored googleData');
+        googleData = JSON.parse(localStorage.getItem("googleData"));
+        readSyncFile(); // need to wait for updates localStorage and local data
+    }
 }
 
 function setActiveAccount() {
@@ -19,32 +26,16 @@ function setActiveAccount() {
   // TODO: else use the first account
 }
 
-// function setTransData (items) {
-//   console.log(items);
-//   transData = JSON.parse(localStorage.getItem("transData"));
-//   forecastData = JSON.parse(localStorage.getItem("forecastData"));
-
-// }
-
-// function updateStoredAccountData(item, value) {
-
-//     if (item == "transData") {
-//       storedData.accounts[acctKey].transData = value;
-//     }    
-//     else if (item == "forecastData") {
-//       storedData.accounts[acctKey].forecastData = value;
-//     }
-//     else if (item == "name") {
-//       storedData.accounts[acctKey].name = value;
-//     }
-//     else if (item == "activeAccount") {
-//       storedData.activeAccount = value;
-//     }
-//     updateStoredData("storedData", storedData);
-// }
-
-function updateStoredData(item, value) {
+function updateStoredData(item, value, pushToGoogle = true) {
   localStorage.setItem(item, JSON.stringify(value));
+  if (item != 'googleData' && googleData != null && pushToGoogle) {
+      updateSyncFile();
+  }
+  else {
+      printHeader();
+      printMain();
+      closeOptions();
+  }
 }
 
 function initializeStoredData () {
@@ -78,9 +69,17 @@ function initializeStoredData () {
   }
 }
 
+function clearStoredData(dataItem) {
+  if (localStorage.removeItem(dataItem)) {
+    //console.log('found stored workoutData');
+  }
+}
+
 function init () {
     initializeStoredData();
     readStoredData();
+    printHeader();
+    printMain();
     //sortedTransKeys();
 }
 
@@ -267,7 +266,9 @@ function updateForecastSettings(form) {
 }
 
 function forecastBalance() {
-  var forecastedBalance = [];
+  // clear balance array
+  forecastedBalance = []
+  readStoredData()
   // Start with today at midnight
   var payDate = new Date();
   payDate.setHours(24,0,0,0);
@@ -290,6 +291,9 @@ function forecastBalance() {
     // Increment one day
     payDate.setDate(payDate.getDate() + 1);
   }
+  // restore initial conditions
+  readStoredData();
+
   //console.log(forecastedBalance);
   return forecastedBalance;
 }

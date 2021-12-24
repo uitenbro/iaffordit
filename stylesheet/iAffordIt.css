@@ -69,3 +69,18 @@
     #chartdiv {
       margin: 20px;
     }
+
+  ul li a.right {
+    float: right;
+    text-align: right;
+    margin-top: -15px;
+  }
+
+  div#loading {
+    text-align: center;
+    position: fixed;
+    top: 85px;
+    display: none;
+    width: 100%;
+    margin-left: -10px;
+}

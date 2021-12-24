@@ -1,6 +1,9 @@
-function printMain(select = 'transactions') {
+var activeTab = 'transactions'
 
-    readStoredData();
+function printMain() {
+
+    select = activeTab
+    // readStoredData();
 
     var main = document.createElement('div');
     main.id = 'main';
@@ -9,8 +12,14 @@ function printMain(select = 'transactions') {
     heading.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
     var dataSource = document.createElement('a');
     dataSource.className = "datasource";
-    dataSource.appendChild(document.createTextNode("local storage"));
-    dataSource.href = "javascript:;";
+    if (localStorage.getItem('googleData')) {
+      dataSource.appendChild(document.createTextNode("google drive"));
+    }
+    else {
+      dataSource.appendChild(document.createTextNode("local storage"));
+    }
+
+    dataSource.href = "javascript:displayGoogleDriveOptions()";
     heading.appendChild(dataSource);
     main.appendChild(heading);
     var ul = printForecastDetails();
@@ -31,8 +40,6 @@ function printMain(select = 'transactions') {
 
     else { // select == 'forecast'
       
-      var forecastedBalance = forecastBalance();
-
       var heading = document.createElement('h1');
       heading.appendChild(document.createTextNode("Balance Forecast"));
       var excel = document.createElement('a')
@@ -284,7 +291,7 @@ function showOptions(key) {
     // Pay
     var pay = document.createElement('a');
     pay.className = "green button";
-    pay.href = "javascript:updateTransaction(" + key + ", 'pay'); printHeader('transactions');printMain('transactions');";
+    pay.href = "javascript:updateTransaction(" + key + ", 'pay');";
     pay.appendChild(document.createTextNode("Pay"));
     buttonContainer.appendChild(pay);
 
@@ -316,7 +323,7 @@ function showOptions(key) {
     // Delete
     var del = document.createElement('a');
     del.className = "red button";
-    del.href = "javascript:updateTransaction(" + key + ", 'delete'); printHeader('transactions'); printMain('transactions');";
+    del.href = "javascript:updateTransaction(" + key + ", 'delete');";
     del.appendChild(document.createTextNode("Delete"));
     buttonContainer.appendChild(del);
 
@@ -513,14 +520,14 @@ function showUpdateForecastForm() {
   // Forecast
   var forecast = document.createElement('a');
   forecast.className = "black button";
-  forecast.href = "javascript:updateForecastSettings();printHeader('forecast');printMain('forecast');";
+  forecast.href = "javascript:updateForecastSettings();forecastBalance();activeTab='forecast';printHeader();printMain();";
   forecast.appendChild(document.createTextNode("Forecast"));
   buttonContainer.appendChild(forecast);
 
   // Save
   var save = document.createElement('a');
   save.className = "black button";
-  save.href = "javascript:updateForecastSettings();printHeader('transactions');printMain('transactions');";
+  save.href = "javascript:updateForecastSettings();";
   save.appendChild(document.createTextNode("Save"));
   buttonContainer.appendChild(save);
 
@@ -773,7 +780,7 @@ function showEditTransactionForm(key, action) {
   // Save
   var save = document.createElement('a');
   save.className = "black button";
-  save.href = "javascript:updateTransaction("+ key + ", '" + action + "'); printHeader('transactions');printMain('transactions');";
+  save.href = "javascript:updateTransaction("+ key + ", '" + action + "');";
   save.appendChild(document.createTextNode("Save"));
   buttonContainer.appendChild(save);
 
@@ -785,7 +792,7 @@ function showEditTransactionForm(key, action) {
 
 }
 
-function printHeader(select = 'transactions') {
+function printHeader() {
 /*
 	<h1>iAfford It</h1>
 	<a href="edit_trans.pl?action=new&amp;index=9999" class="Action" id="leftActionButton">New</a>
@@ -793,6 +800,7 @@ function printHeader(select = 'transactions') {
 	<a href="javascript:document.forecast.submit();"
 	class="Action">Forecast</a>
 */
+    var select = activeTab
     var div = document.createElement('div');
     div.id = "header";
     var h1 = document.createElement('h1');
@@ -809,14 +817,14 @@ function printHeader(select = 'transactions') {
     else {
       var transList = document.createElement('a');
       transList.id = "leftActionButton";
-      transList.href = "javascript:printHeader('transactions');printMain('transactions');";
+      transList.href = "javascript:activeTab='transactions';printHeader();printMain();";
       transList.appendChild(document.createTextNode("Transactions"));
       div.appendChild(transList);
     }
 
     var forecast = document.createElement('a');
     forecast.id = "Action";
-    forecast.href = "javascript:printHeader('forecast');printMain('forecast')";
+    forecast.href = "javascript:forecastBalance();activeTab='forecast';printHeader();printMain();";
     forecast.appendChild(document.createTextNode("Forecast"));
     div.appendChild(forecast);
     document.getElementById('header').replaceWith(div);
