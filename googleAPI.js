@@ -327,8 +327,10 @@ function handleUpdateSyncFile(response) {
     console.log(response);
   }
   googleSyncInProgress(false);
-  printHeader();
-  printMain();
+  if (activeTab != 'forecast') {
+    printHeader();
+    printMain();
+  }
 }
 
 function handleReadSyncFile(response) {

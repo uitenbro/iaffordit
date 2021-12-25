@@ -5,6 +5,14 @@ var acctKey = 0
 var state = 'none';
 var forecastedBalance = [];
 
+function restoreWorkingDataFromLocalStorage() {
+    storedData = JSON.parse(localStorage.getItem("storedData"));
+    setActiveAccount()
+    acctName = storedData.accounts[acctKey].name;
+    transData = storedData.accounts[acctKey].transData;
+    forecastData = storedData.accounts[acctKey].forecastData
+}
+
 function readStoredData() {
     storedData = JSON.parse(localStorage.getItem("storedData"));
     setActiveAccount()
@@ -31,7 +39,7 @@ function updateStoredData(item, value, pushToGoogle = true) {
   if (item != 'googleData' && googleData != null && pushToGoogle) {
       updateSyncFile();
   }
-  else {
+  else if (activeTab != 'forecast') {
       printHeader();
       printMain();
       closeOptions();
@@ -149,7 +157,7 @@ function updateExistingTransaction (key, action, name, date, freq, type, amount,
     //console.log("updateExisting");
     //console.log(transData[key]);
     transData[key].name = name;
-    transData[key].date = date;
+    transData[key].date = date.toISOString();
     transData[key].freq = freq;
     transData[key].amount = amount;
     transData[key].type = type;
@@ -235,8 +243,8 @@ function generateKey() {
 
 function sortedTransKeys() {
     var keys = [];
-    for (var key in transData) {
-      if (transData.hasOwnProperty(key)) {
+    for (var key in storedData.accounts[acctKey].transData) {
+      if (storedData.accounts[acctKey].transData.hasOwnProperty(key)) {
         keys.push(key);
       }
     }
@@ -246,8 +254,8 @@ function sortedTransKeys() {
 }
 
 function compareTransDates(key1, key2) {
-    var date1 = transData[key1].date;
-    var date2 = transData[key2].date;;
+    var date1 = storedData.accounts[acctKey].transData[key1].date;
+    var date2 = storedData.accounts[acctKey].transData[key2].date;;
     if (date1 < date2) {
         return -1;
         }
@@ -268,7 +276,6 @@ function updateForecastSettings(form) {
 function forecastBalance() {
   // clear balance array
   forecastedBalance = []
-  readStoredData()
   // Start with today at midnight
   var payDate = new Date();
   payDate.setHours(24,0,0,0);
@@ -292,7 +299,7 @@ function forecastBalance() {
     payDate.setDate(payDate.getDate() + 1);
   }
   // restore initial conditions
-  readStoredData();
+  restoreWorkingDataFromLocalStorage();
 
   //console.log(forecastedBalance);
   return forecastedBalance;

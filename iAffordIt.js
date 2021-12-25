@@ -604,9 +604,9 @@ function showEditTransactionForm(key, action) {
   var date = document.createElement('input');
   date.type = "date";
   date.name = "date";
-  if (transData[key] != undefined) {
-    date.value = transData[key].date.split('T')[0];
-    var timezone = transData[key].date.split('T')[1]
+  if (storedData.accounts[acctKey].transData[key] != undefined) {
+    date.value = storedData.accounts[acctKey].transData[key].date.split('T')[0];
+    var timezone = storedData.accounts[acctKey].transData[key].date.split('T')[1]
   }
   else {
     var newDate = new Date();
