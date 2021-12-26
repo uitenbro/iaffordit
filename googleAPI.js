@@ -377,7 +377,7 @@ function createPicker() {
       var picker = new google.picker.PickerBuilder()
           .enableFeature(google.picker.Feature.NAV_HIDDEN)
           //.enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-          .setAppId("outapp-1547573908589")
+          .setAppId("workoutapp-1547573908589")
           .setOAuthToken(GoogleAuthToken)
           .addView(view)
           .addView(new google.picker.DocsUploadView())

@@ -396,17 +396,24 @@ function showAccountOptionsForm() {
   forecast.appendChild(document.createTextNode("Select"));
   buttonContainer.appendChild(forecast);
 
+  // Select Account
+  var forecast = document.createElement('a');
+  forecast.className = "black button";
+  forecast.href = "javascript:renameAccount(document.accountUpdateForm.accountSelect.value)";
+  forecast.appendChild(document.createTextNode("Rename"));
+  buttonContainer.appendChild(forecast);
+
   // Delete
   var save = document.createElement('a');
   save.className = "black button";
-  save.href = "javascript:;";
+  save.href = "javascript:deleteAccount(document.accountUpdateForm.accountSelect.value);";
   save.appendChild(document.createTextNode("Delete"));
   buttonContainer.appendChild(save);
 
     // New Account
   var save = document.createElement('a');
   save.className = "black button";
-  save.href = "javascript:;";
+  save.href = "javascript:createNewAccount();";
   save.appendChild(document.createTextNode("New"));
   buttonContainer.appendChild(save);
 

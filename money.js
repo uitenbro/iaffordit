@@ -66,7 +66,10 @@ function initializeStoredData () {
   else {
     //console.log('create default data');
     storedData.accounts = {}
-    acctKey = createNewAccount("New Account")
+    var key = generateKey();
+    storedData.activeAccount = key
+    storedData.accounts[key] = {"name":"New Account"}
+    
     var day = 1000*60*60*24;
     var date1 = new Date();
     var date2 = new Date();
@@ -156,13 +159,39 @@ function createNewTransaction (name, date, freq, type, amount, tags) {
     return key;
 }
 
+function renameAccount(key) {
+  name = prompt("Enter a new name for this account", storedData.accounts[key].name);
+  storedData.accounts[key].name = name
+  setActiveAccount(key)
+}
+
 function createNewAccount (name) {
+    if (name == undefined) {
+      name = prompt("Enter a name for this account", "New Account")
+    }
     var key = generateKey();
-    //console.log("createNew");
-    //console.log(transData[key]);
     storedData.activeAccount = key
-    storedData.accounts[key] = {"name":name}
-    return key;
+    acctKey = key;
+    storedData.accounts[acctKey] = {"name":name}
+
+    transData = {}
+    var date1 = new Date()
+    var key = createNewTransaction('Monthly Expense', date1, 'mon', 'bill', 250, '');
+    storedData.accounts[acctKey].transData = transData
+    forecastData = {
+        "startBalance" : 1500, 
+        "forecastDuration" : 365,
+        "graphTick" : 100,
+    };
+    storedData.accounts[acctKey].forecastData = forecastData
+    updateStoredData('storedData', storedData)
+    return acctKey;
+}
+
+function deleteAccount(key) {
+  delete storedData.accounts[key];
+  activeAccount = Object.keys(storedData.accounts)[0];
+  setActiveAccount(activeAccount);
 }
 
 function updateExistingTransaction (key, action, name, date, freq, type, amount, tags) {
