@@ -9,7 +9,11 @@ function printMain() {
     main.id = 'main';
 
     var heading = document.createElement('h1');
-    heading.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
+    var accountName = document.createElement('a');  
+    accountName.className = "acctname";
+    accountName.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
+    accountName.href = "javascript:showAccountOptionsForm()";
+    heading.appendChild(accountName)
     var dataSource = document.createElement('a');
     dataSource.className = "datasource";
     if (localStorage.getItem('googleData')) {
@@ -335,8 +339,84 @@ function showOptions(key) {
 }
 
 function closeOptions() {
+    document.getElementById('header').style.display = 'block';
     document.getElementById('main').style.display = 'block';
     document.getElementById('options').style.display = 'none';
+}
+
+function showAccountOptionsForm() {
+ var div = document.createElement('div');
+  div.id = "options";
+  div.className="optionpanel";
+  div.style.display = 'block';
+
+  var img = document.createElement('img');
+  img.src = "images/cancel.png";
+  var cancel = document.createElement('a');
+  cancel.appendChild(img);
+  cancel.href = "javascript:closeOptions();";
+  div.appendChild(cancel);
+
+  // Account List
+  var ul = document.createElement('ul');
+
+  // Form
+  var form = document.createElement('form');
+  //form.method = "post";
+  //form.action = "javascript:updateForecastSettings(forecastSettings)";
+  form.name = "accountUpdateForm";
+
+  // Accounts
+  var li = document.createElement('li')
+  li.appendChild(document.createTextNode("Accounts"));
+  form.appendChild(li);
+  var li = document.createElement('li');
+  var accountList = document.createElement('select');
+  accountList.name = "accountSelect";
+  accountList.size = 4;
+  for (key in storedData.accounts ) {
+    var option = document.createElement('option');
+    option.value = key;
+    if (key == acctKey) {option.selected = "selected";}
+    option.appendChild(document.createTextNode(storedData.accounts[key].name)); 
+    accountList.appendChild(option);
+  }
+  li.appendChild(accountList);
+  form.appendChild(li);
+  ul.appendChild(form);
+  div.appendChild(ul);
+
+  // Action Buttons
+  buttonContainer = document.createElement('p');
+
+  // Select Account
+  var forecast = document.createElement('a');
+  forecast.className = "black button";
+  forecast.href = "javascript:setActiveAccount(document.accountUpdateForm.accountSelect.value)";
+  forecast.appendChild(document.createTextNode("Select"));
+  buttonContainer.appendChild(forecast);
+
+  // Delete
+  var save = document.createElement('a');
+  save.className = "black button";
+  save.href = "javascript:;";
+  save.appendChild(document.createTextNode("Delete"));
+  buttonContainer.appendChild(save);
+
+    // New Account
+  var save = document.createElement('a');
+  save.className = "black button";
+  save.href = "javascript:;";
+  save.appendChild(document.createTextNode("New"));
+  buttonContainer.appendChild(save);
+
+  // Add to the page and hide main panel
+  div.appendChild(buttonContainer);
+  document.getElementById('options').replaceWith(div);
+  document.getElementById('main').style.display = 'none';
+  window.scrollTo(0, 0);
+
+
 }
 
 function showUpdateForecastForm() {

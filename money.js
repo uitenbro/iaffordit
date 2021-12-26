@@ -28,9 +28,21 @@ function readStoredData() {
     }
 }
 
-function setActiveAccount() {
+function setActiveAccount(key = null) {
   // if key exists in storedData set it 
-  acctKey = storedData.activeAccount;
+  if (key == null) {
+    acctKey = storedData.activeAccount;
+  }
+  else {
+    storedData.activeAccount = key
+    acctKey = key;
+    updateStoredData("storedData", storedData)
+    restoreWorkingDataFromLocalStorage();
+    activeTab ='transactions';
+    printHeader();
+    printMain();
+    closeOptions();
+  }
   // TODO: else use the first account
 }
 
