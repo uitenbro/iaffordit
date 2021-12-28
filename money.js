@@ -69,6 +69,7 @@ function initializeStoredData () {
     var key = generateKey();
     storedData.activeAccount = key
     storedData.accounts[key] = {"name":"New Account"}
+    acctKey = key;
     
     var day = 1000*60*60*24;
     var date1 = new Date();
