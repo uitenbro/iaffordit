@@ -320,7 +320,7 @@ function forecastBalance() {
   forecastedBalance = []
   // Start with today at midnight
   var payDate = new Date();
-  payDate.setHours(24,0,0,0);
+  payDate.setHours(0,0,0,0);
   var newBalance = forecastData.startBalance;
   //var day = 1000*60*60*24;
   var payUntilDate = new Date;
@@ -333,7 +333,7 @@ function forecastBalance() {
     if (newBalance != previousBalance) {
       // Use the previous day for the log
       var logDate = new Date(payDate);
-      logDate.setDate(logDate.getDate()-1);
+      logDate.setDate(logDate.getDate());
       forecastedBalance.push({date:logDate.toISOString(), balance:newBalance});
       //console.log("Add date");console.log(payDate);
     }
