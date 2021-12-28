@@ -340,7 +340,8 @@ function handleReadSyncFile(response) {
     updateStoredData('storedData', storedData, false);
     setLastReadTime();
     console.log("Local Storage updated with Google Drive Data");
-    updateStoredData('googleData', googleData);
+    getSyncFileMetadata();
+    //updateStoredData('googleData', googleData);
   }
   else {
     alert("Error reading Sync File");
