@@ -396,7 +396,7 @@ function showAccountOptionsForm() {
   forecast.appendChild(document.createTextNode("Select"));
   buttonContainer.appendChild(forecast);
 
-  // Select Account
+  // Rename Account
   var forecast = document.createElement('a');
   forecast.className = "black button";
   forecast.href = "javascript:renameAccount(document.accountUpdateForm.accountSelect.value)";

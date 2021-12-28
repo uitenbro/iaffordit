@@ -22,6 +22,7 @@ function printVerticalStripChart(Array) {
     yMinusY = 0
     sumxXyY = 0
     sumxXsquared = 0
+    sumYminusYSquared = 0
     prevDate = new Date(inputArray[0].date)
     prevDayNumber = 0
     dayNumber = 0
@@ -77,6 +78,9 @@ function printVerticalStripChart(Array) {
         sumxXyY += xMinusX*yMinusY
         sumxXsquared += xMinusX*xMinusX
 
+        // Standard Deviation from: https://www.khanacademy.org/math/statistics-probability/summarizing-quantitative-data/variance-standard-deviation-population/a/calculating-standard-deviation-step-by-step
+        sumYminusYSquared += yMinusY*yMinusY
+
         // Setup for next iteration
         prevDate = date
         prevDayNumber = dayNumber
@@ -86,6 +90,9 @@ function printVerticalStripChart(Array) {
     slope = (sumxXyY)/(sumxXsquared)
     console.log(sumxXyY, sumxXsquared, slope) 
     trendDollarsPerWeek = -7*slope
+
+    // Standard Deviation 
+    var balanceDev = Math.sqrt(sumYminusYSquared/dataArray.length)
    
     var minHeight = 40 + (20 * dataArray.length)
 
@@ -93,7 +100,7 @@ function printVerticalStripChart(Array) {
 
     var forecastPlot = $.jqplot('chartdiv', [black, dataArray], {
         height: minHeight,
-        title: "<span style='font-size: 14px;'>Trend $" + trendDollarsPerWeek.toFixed(2) + " per week</span>",
+        title: "<span style='font-size: 14px;'>Trend: $" + trendDollarsPerWeek.toFixed(2) + "/wk | Avg: $" + Ymean.toFixed(2) + " | Var: $" + balanceDev.toFixed(2) + "</span>",
         seriesColors: [
             "black",  
             "#0099FF"],
@@ -140,5 +147,5 @@ function printVerticalStripChart(Array) {
     });
 
     //console.log(forecastPlot);
-    return slope;
+    return slope, Ymean, balanceDev;
 }
