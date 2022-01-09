@@ -54,10 +54,12 @@ function printVerticalStripChart(Array) {
 
     for (var i=0; i<inputArray.length; i++) {
         var date = new Date(inputArray[i].date);
-        var dateString = date.toISOString().split('T')[0];
-        dateString = dateString.split('-');
-        var printDate = dateString[1]+'-'+dateString[2]+'-'+dateString[0];
-        var printDateLabel = dateString[1]+'/'+dateString[2]
+        printDateLabel = date.toLocaleString(navigator.language, { day:"2-digit", month: "2-digit"})
+        printDate = date.toLocaleString(navigator.language, { day:"2-digit", month: "2-digit", year:"numeric"})
+        //var dateString = date.toISOString().split('T')[0];
+        //dateString = dateString.split('-');
+        //var printDate = dateString[1]+'-'+dateString[2]+'-'+dateString[0];
+        //var printDateLabel = dateString[1]+'/'+dateString[2]
         dataArray[i] = [inputArray[i].balance, printDate];
         labelsArray[i] = printDateLabel + ', ' + inputArray[i].balance.toFixed(2);
 

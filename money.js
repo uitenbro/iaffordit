@@ -320,7 +320,7 @@ function forecastBalance() {
   forecastedBalance = []
   // Start with today at midnight
   var payDate = new Date();
-  payDate.setHours(0,0,0,0);
+  payDate.setHours(23,59,59,0);
   var newBalance = forecastData.startBalance;
   //var day = 1000*60*60*24;
   var payUntilDate = new Date;
