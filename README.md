@@ -1,6 +1,3 @@
-# iaffordit
-
-move all files to the websever
-rename htaccess and Users/htaccess to .htaccess
-chmod 755 *.pl # change permission on all perl files
-restore any user data in Users
+ For development clone the repo 
+ /usr/bin/python3 -m http.server
+ localhost:8000

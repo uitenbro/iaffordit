@@ -120,6 +120,27 @@ function updateTransaction(key, action) {
           incrementTransaction(key);
         }
     }
+    else if (action == "pay2now") {
+        
+        var now = new Date()
+        now.setHours(0, 0, 0, 0)
+        var transDate = new Date(transData[key].date)
+        while (transDate < now) {
+
+          //console.log("now - " + now.toDateString() + "transData.date - " + transDate.toDateString())
+
+          // If this is a one time transaction delete it from the data store
+          if (transData[key].freq == "one") {
+            delete transData[key];
+            break;
+          }
+          else {
+            // Increment this key with a future transactions date
+            incrementTransaction(key);
+            transDate = new Date(transData[key].date)
+          }
+        }
+    }
     else if (action == "delete") {  
       // Delete it from the data store
       delete transData[key];

@@ -299,6 +299,13 @@ function showOptions(key) {
     pay.appendChild(document.createTextNode("Pay"));
     buttonContainer.appendChild(pay);
 
+    // Pay to Now
+    var pay = document.createElement('a');
+    pay.className = "green button";
+    pay.href = "javascript:updateTransaction(" + key + ", 'pay2now');";
+    pay.appendChild(document.createTextNode("Pay to Now"));
+    buttonContainer.appendChild(pay);
+
     if (transData[key].freq != "one") {
       // Edit Current
       var one = document.createElement('a');
