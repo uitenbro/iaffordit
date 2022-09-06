@@ -238,11 +238,7 @@ function incrementTransaction (key) {
 function calcNextDate (inDate, freq) {
     var date = new Date(inDate);
     var day = 1000*60*60*24;
-    // All monthly bills scheduled after the 28th will be paid on 28th in the future
-    // TODO: add preferred date and actual date to retain month end dates
-    if ((date.getDate > 28) && ((freq == "mon" ||  freq == "bmn" || freq == "qtr" || freq == "anl"))) {
-      date.setDate(28);
-    }
+    
     //console.log(freq);
     switch (freq) {
         case "wkl": {
