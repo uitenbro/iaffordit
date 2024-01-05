@@ -10,8 +10,9 @@
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script language="javascript" type="text/javascript" src="googleAPI.js"></script>
-<script async defer src="https://apis.google.com/js/api.js"></script>
-<meta name="google-signin-client_id" content="225263823157-r3mnuks0si79i07727ph5khd65ptlu20.apps.googleusercontent.com">
+<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoad()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="gisInit()"></script>
+<!-- <meta name="google-signin-client_id" content="225263823157-r3mnuks0si79i07727ph5khd65ptlu20.apps.googleusercontent.com"> -->
 
 <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
 <script language="javascript" type="text/javascript" src="jqplot/jquery.min.js"></script>
@@ -34,7 +35,7 @@
 <script type="text/javascript" src="iAffordIt.js"></script>
 <script type="text/javascript" src="money.js"></script>
 </head>
-<body onload="handleClientLoad();">
+<body onload="init();">
   <div id="header"></div>
   <div id="main"></div>
   <div id="options"></div>

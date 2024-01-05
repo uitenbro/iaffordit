@@ -5,8 +5,20 @@ var acctKey = 0
 var state = 'none';
 var forecastedBalance = [];
 
+var syncData = storedData; // syncData is a reference to the local data variable to be stored and synched
+var localStorageName = 'storedData' // name of the syncData in localstorage
+var syncFileName = "iaffordIt.json"; // name of json file for google drive
+var googleAppId = "workoutapp-1547573908589";
+var googleDeveloperKey = "AIzaSyBhUaOQu8zs6mhXELmgIpKEl6Ji-5bw2Uw";
+var googleTokenClientId = '225263823157-r3mnuks0si79i07727ph5khd65ptlu20.apps.googleusercontent.com'
+
+function validateJsonData(response) {
+    // Ensure the App Data matches what the application is expecting
+    return response.accounts
+}
+
 function restoreWorkingDataFromLocalStorage() {
-    storedData = JSON.parse(localStorage.getItem("storedData"));
+    Object.assign(storedData, JSON.parse(localStorage.getItem("storedData")));
     setActiveAccount()
     acctName = storedData.accounts[acctKey].name;
     transData = storedData.accounts[acctKey].transData;
@@ -14,7 +26,7 @@ function restoreWorkingDataFromLocalStorage() {
 }
 
 function readStoredData() {
-    storedData = JSON.parse(localStorage.getItem("storedData"));
+    Object.assign(storedData, JSON.parse(localStorage.getItem("storedData")));
     setActiveAccount()
     acctName = storedData.accounts[acctKey].name;
     transData = storedData.accounts[acctKey].transData;
@@ -24,6 +36,9 @@ function readStoredData() {
     if (localStorage.getItem('googleData')) {
         //console.log('found stored googleData');
         googleData = JSON.parse(localStorage.getItem("googleData"));
+        while((gapiInited == false) || (gisInited == false) || (GooglePickerInited == false)) {
+            setTimeout(readStoredData(), 100)
+        }
         readSyncFile(); // need to wait for updates localStorage and local data
     }
 }
@@ -50,11 +65,6 @@ function updateStoredData(item, value, pushToGoogle = true) {
   localStorage.setItem(item, JSON.stringify(value));
   if (item != 'googleData' && googleData != null && pushToGoogle) {
       updateSyncFile();
-  }
-  else if (activeTab != 'forecast') {
-      printHeader();
-      printMain();
-      closeOptions();
   }
 }
 
@@ -99,7 +109,14 @@ function clearStoredData(dataItem) {
   }
 }
 
-function init () {
+function printAll() {
+    setActiveAccount(storedData.activeAccount);
+    // setActiveAccount already calls printHeader and printAll
+    // printHeader();
+    // printMain();
+}
+
+function init() {
     initializeStoredData();
     readStoredData();
     printHeader();
