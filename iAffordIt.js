@@ -295,14 +295,14 @@ function showOptions(key) {
     // Pay
     var pay = document.createElement('a');
     pay.className = "green button";
-    pay.href = "javascript:updateTransaction(" + key + ", 'pay');";
+    pay.href = "javascript:updateTransaction(" + key + ", 'pay');closeOptions();";
     pay.appendChild(document.createTextNode("Pay"));
     buttonContainer.appendChild(pay);
 
     // Pay to Now
     var pay = document.createElement('a');
     pay.className = "green button";
-    pay.href = "javascript:updateTransaction(" + key + ", 'pay2now');";
+    pay.href = "javascript:updateTransaction(" + key + ", 'pay2now');closeOptions();";
     pay.appendChild(document.createTextNode("Pay to Now"));
     buttonContainer.appendChild(pay);
 
