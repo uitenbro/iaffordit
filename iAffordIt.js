@@ -295,14 +295,14 @@ function showOptions(key) {
     // Pay
     var pay = document.createElement('a');
     pay.className = "green button";
-    pay.href = "javascript:updateTransaction(" + key + ", 'pay');closeOptions();";
+    pay.href = "javascript:updateTransaction(" + key + ", 'pay');printHeader();printMain();";
     pay.appendChild(document.createTextNode("Pay"));
     buttonContainer.appendChild(pay);
 
     // Pay to Now
     var pay = document.createElement('a');
     pay.className = "green button";
-    pay.href = "javascript:updateTransaction(" + key + ", 'pay2now');closeOptions();";
+    pay.href = "javascript:updateTransaction(" + key + ", 'pay2now');printHeader();printMain();";
     pay.appendChild(document.createTextNode("Pay to Now"));
     buttonContainer.appendChild(pay);
 
@@ -334,7 +334,7 @@ function showOptions(key) {
     // Delete
     var del = document.createElement('a');
     del.className = "red button";
-    del.href = "javascript:updateTransaction(" + key + ", 'delete');";
+    del.href = "javascript:updateTransaction(" + key + ", 'delete');printHeader();printMain();";
     del.appendChild(document.createTextNode("Delete"));
     buttonContainer.appendChild(del);
 
@@ -621,7 +621,7 @@ function showUpdateForecastForm() {
   // Save
   var save = document.createElement('a');
   save.className = "black button";
-  save.href = "javascript:updateForecastSettings();";
+  save.href = "javascript:updateForecastSettings();printHeader();printMain();";
   save.appendChild(document.createTextNode("Save"));
   buttonContainer.appendChild(save);
 
