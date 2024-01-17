@@ -874,7 +874,7 @@ function showEditTransactionForm(key, action) {
   // Save
   var save = document.createElement('a');
   save.className = "black button";
-  save.href = "javascript:updateTransaction("+ key + ", '" + action + "');";
+  save.href = "javascript:updateTransaction("+ key + ", '" + action + "');printHeader();printMain();";
   save.appendChild(document.createTextNode("Save"));
   buttonContainer.appendChild(save);
 
