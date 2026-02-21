@@ -921,6 +921,14 @@ function printHeader() {
     forecast.href = "javascript:forecastBalance();activeTab='forecast';printHeader();printMain();";
     forecast.appendChild(document.createTextNode("Forecast"));
     div.appendChild(forecast);
+
+    var payAll = document.createElement('a');
+    payAll.className = "Action";
+    payAll.style.right = "80px";
+    payAll.href = "javascript:payAllToNow();printHeader();printMain();";
+    payAll.appendChild(document.createTextNode("Pay All"));
+    div.appendChild(payAll);
+
     document.getElementById('header').replaceWith(div);
 }
 

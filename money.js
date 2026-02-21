@@ -124,7 +124,7 @@ function init() {
     //sortedTransKeys();
 }
 
-function updateTransaction(key, action) {
+function updateTransaction(key, action, pushToGoogle = true) {
 
     if (action == "pay") {
         
@@ -186,7 +186,15 @@ function updateTransaction(key, action) {
       }
     }
     storedData.accounts[acctKey].transData = transData
-    updateStoredData('storedData', storedData);
+    updateStoredData('storedData', storedData, pushToGoogle);
+}
+
+function payAllToNow() {
+    var keys = sortedTransKeys();
+    for (var i=0; i<keys.length; i++) {
+        updateTransaction(keys[i], 'pay2now', false);
+    }
+    updateStoredData('storedData', storedData, true);
 }
 
 function createNewTransaction (name, date, freq, type, amount, tags) {
