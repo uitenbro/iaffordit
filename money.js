@@ -190,6 +190,7 @@ function updateTransaction(key, action, pushToGoogle = true) {
 }
 
 function payAllToNow() {
+    // Get keys for the currently active account
     var keys = sortedTransKeys();
     for (var i=0; i<keys.length; i++) {
         updateTransaction(keys[i], 'pay2now', false);
