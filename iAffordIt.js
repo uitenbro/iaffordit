@@ -960,34 +960,59 @@ function printHeader() {
       newTrans.href = "javascript:showEditTransactionForm('newKey', 'new');";
       newTrans.appendChild(document.createTextNode("New"));
       div.appendChild(newTrans);
+
+      var budget = document.createElement('a');
+      budget.id = "leftActionButton";
+      budget.style.left = "60px"; // Position it next to New
+      budget.style.borderWidth = "0 5px"; // Match Action style but position left
+      budget.href = "javascript:activeTab='budget';printHeader();printMain();";
+      budget.appendChild(document.createTextNode("Budget"));
+      div.appendChild(budget);
     }
-    else {
+    else if (select == 'budget') {
+        var transList = document.createElement('a');
+        transList.id = "leftActionButton";
+        transList.href = "javascript:activeTab='transactions';printHeader();printMain();";
+        transList.appendChild(document.createTextNode("Transactions"));
+        div.appendChild(transList);
+    }
+    else { // forecast
       var transList = document.createElement('a');
       transList.id = "leftActionButton";
       transList.href = "javascript:activeTab='transactions';printHeader();printMain();";
       transList.appendChild(document.createTextNode("Transactions"));
       div.appendChild(transList);
+
+      var budget = document.createElement('a');
+      budget.id = "leftActionButton";
+      budget.style.left = "110px"; // Position next to Transactions
+      budget.style.borderWidth = "0 5px";
+      budget.href = "javascript:activeTab='budget';printHeader();printMain();";
+      budget.appendChild(document.createTextNode("Budget"));
+      div.appendChild(budget);
     }
 
-    var forecast = document.createElement('a');
-    forecast.id = "Action";
-    forecast.href = "javascript:forecastBalance();activeTab='forecast';printHeader();printMain();";
-    forecast.appendChild(document.createTextNode("Forecast"));
-    div.appendChild(forecast);
+    if (select != 'budget') {
+        var forecast = document.createElement('a');
+        forecast.id = "Action";
+        forecast.href = "javascript:forecastBalance();activeTab='forecast';printHeader();printMain();";
+        forecast.appendChild(document.createTextNode("Forecast"));
+        div.appendChild(forecast);
 
-    var payAll = document.createElement('a');
-    payAll.className = "Action";
-    payAll.style.right = "80px";
-    payAll.href = "javascript:payAllToNow();printHeader();printMain();";
-    payAll.appendChild(document.createTextNode("Pay All"));
-    div.appendChild(payAll);
-
-    var budget = document.createElement('a');
-    budget.className = "Action";
-    budget.style.right = "150px";
-    budget.href = "javascript:activeTab='budget';printHeader();printMain();";
-    budget.appendChild(document.createTextNode("Budget"));
-    div.appendChild(budget);
+        var payAll = document.createElement('a');
+        payAll.className = "Action";
+        payAll.style.right = "80px";
+        payAll.href = "javascript:payAllToNow();printHeader();printMain();";
+        payAll.appendChild(document.createTextNode("Pay All"));
+        div.appendChild(payAll);
+    } else {
+        // Budget View - Only Update Button on Right
+        var update = document.createElement('a');
+        update.id = "Action";
+        update.href = "javascript:saveBudgetUpdates();";
+        update.appendChild(document.createTextNode("Update"));
+        div.appendChild(update);
+    }
 
     document.getElementById('header').replaceWith(div);
 }
@@ -1039,22 +1064,17 @@ function printDuration() {
 function printBudgetView() {
     var container = document.createElement('div');
 
-    // Update Button at Top
-    var updateBtnTop = document.createElement('a');
-    updateBtnTop.className = "black button";
-    updateBtnTop.href = "javascript:saveBudgetUpdates();";
-    updateBtnTop.appendChild(document.createTextNode("Update"));
-    container.appendChild(updateBtnTop);
+    // Update Button moved to Header
 
     var table = document.createElement('table');
-    table.className = "graph";
+    table.className = "budget";
 
     var thead = document.createElement('thead');
     var tr = document.createElement('tr');
     tr.className = "graphHeader";
 
     // Headers
-    var headers = ["Prio", "Acct", "Name", "Freq", "Amt", "Weekly", "Ign", "Run Tot", "Year End"];
+    var headers = ["Prio", "Acct", "Name", "Freq", "Amt", "Wkly", "Ign", "Run Tot", "Year End"];
     for (var i = 0; i < headers.length; i++) {
         var th = document.createElement('th');
         th.appendChild(document.createTextNode(headers[i]));
@@ -1159,13 +1179,6 @@ function printBudgetView() {
 
     table.appendChild(tbody);
     container.appendChild(table);
-
-    // Update Button at Bottom
-    var updateBtnBottom = document.createElement('a');
-    updateBtnBottom.className = "black button";
-    updateBtnBottom.href = "javascript:saveBudgetUpdates();";
-    updateBtnBottom.appendChild(document.createTextNode("Update"));
-    container.appendChild(updateBtnBottom);
 
     return container;
 }
