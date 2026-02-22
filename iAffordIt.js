@@ -8,26 +8,27 @@ function printMain() {
     var main = document.createElement('div');
     main.id = 'main';
 
-    var heading = document.createElement('h1');
-    var accountName = document.createElement('a');  
-    accountName.className = "acctname";
-    accountName.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
-    accountName.href = "javascript:showAccountOptionsForm()";
-    heading.appendChild(accountName)
-    var dataSource = document.createElement('a');
-    dataSource.className = "datasource";
-    if (localStorage.getItem('googleData')) {
-      dataSource.appendChild(document.createTextNode("google drive"));
-    }
-    else {
-      dataSource.appendChild(document.createTextNode("local storage"));
-    }
-
-    dataSource.href = "javascript:displayGoogleDriveOptions()";
-    heading.appendChild(dataSource);
-    main.appendChild(heading);
-
+    // Only show account name and source if NOT in budget view
     if (select != 'budget') {
+        var heading = document.createElement('h1');
+        var accountName = document.createElement('a');
+        accountName.className = "acctname";
+        accountName.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
+        accountName.href = "javascript:showAccountOptionsForm()";
+        heading.appendChild(accountName)
+        var dataSource = document.createElement('a');
+        dataSource.className = "datasource";
+        if (localStorage.getItem('googleData')) {
+          dataSource.appendChild(document.createTextNode("google drive"));
+        }
+        else {
+          dataSource.appendChild(document.createTextNode("local storage"));
+        }
+
+        dataSource.href = "javascript:displayGoogleDriveOptions()";
+        heading.appendChild(dataSource);
+        main.appendChild(heading);
+
         var ul = printForecastDetails();
         main.appendChild(ul);
     }
