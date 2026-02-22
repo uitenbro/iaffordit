@@ -23,6 +23,11 @@
         margin:1px;
     }
 
+    span.tag.purple {
+        color: purple;
+        background-color: #e6cde6;
+    }
+
     ul.graphContainer {
       /*overflow: hidden;*/
     }
@@ -67,6 +72,9 @@
       text-align: right;
       white-space:nowrap;
     }
+    td.red {
+      color: red;
+    }
     td {
       border:0px solid black;
     }
@@ -88,4 +96,59 @@
     display: none;
     width: 100%;
     margin-left: -10px;
+}
+
+table.budget {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+    background: #fff;
+    border: 1px solid #B4B4B4;
+    -webkit-border-radius: 8px;
+    font-family: Helvetica;
+}
+
+table.budget thead tr.graphHeader th {
+    font-size: 13px;
+    color: rgb(76,86,108);
+    padding: 8px;
+    border-bottom: 1px solid #B4B4B4;
+    text-align: left;
+}
+table.budget thead tr.graphHeader th:last-child {
+    text-align: right;
+}
+
+table.budget tbody tr.budgetRow {
+    border-top: 1px solid #B4B4B4;
+    height: 44px;
+}
+
+table.budget tbody tr.budgetRow td {
+    padding: 8px 5px;
+    font-size: 14px;
+    color: #000;
+    vertical-align: middle;
+}
+
+table.budget tbody tr.budgetRow td.graphBalance {
+    text-align: right;
+}
+
+table.budget tbody tr.budgetRow:first-child {
+    border-top: 0;
+}
+
+/* Adjust Input styles within table */
+table.budget input[type="number"] {
+    font-size: 14px;
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+table.budget tbody tr.budgetRow td.red {
+    color: red !important;
 }
