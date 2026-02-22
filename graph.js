@@ -61,7 +61,7 @@ function printVerticalStripChart(Array) {
         //var printDate = dateString[1]+'-'+dateString[2]+'-'+dateString[0];
         //var printDateLabel = dateString[1]+'/'+dateString[2]
         dataArray[i] = [inputArray[i].balance, printDate];
-        labelsArray[i] = printDateLabel + ', ' + inputArray[i].balance.toFixed(2);
+        labelsArray[i] = printDateLabel + ', ' + formatCurrency(inputArray[i].balance);
 
         //green[i] = [2000,dataArray[i][1]];
         //orange[i] = [1000,dataArray[i][1]];
@@ -102,7 +102,7 @@ function printVerticalStripChart(Array) {
 
     var forecastPlot = $.jqplot('chartdiv', [black, dataArray], {
         height: minHeight,
-        title: "<span style='font-size: 14px;'>Trend: $" + trendDollarsPerWeek.toFixed(2) + "/wk | Avg: $" + Ymean.toFixed(2) + " | Var: $" + balanceDev.toFixed(2) + "</span>",
+        title: "<span style='font-size: 14px;'>Trend: $" + formatCurrency(trendDollarsPerWeek) + "/wk | Avg: $" + formatCurrency(Ymean) + " | Var: $" + formatCurrency(balanceDev) + "</span>",
         seriesColors: [
             "black",  
             "#0099FF"],
