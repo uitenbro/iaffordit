@@ -87,11 +87,11 @@ function initializeStoredData () {
     var date3 = new Date();
     var date4 = new Date();
     var date5 = new Date();
-    var key1 = createNewTransaction('Weekly Bill', date1, 'wkl', 'bill', 250, 'zero');
-    var key2 = createNewTransaction('Monthly Bill', date2, 'mon', 'bill', 400, 'one');
-    var key3 = createNewTransaction('Monthly Deposit', date3, 'mon', 'dep', 1500, 'two');
-    var key4 = createNewTransaction('Quarterly Bill', date4, 'qtr', 'bill', 100, 'three');
-    var key5 = createNewTransaction('Monthly Expense', date5, 'mon', 'bill', 250, 'five');
+    var key1 = createNewTransaction('Weekly Bill', date1, 'wkl', 'bill', 250, 'zero', 1, false);
+    var key2 = createNewTransaction('Monthly Bill', date2, 'mon', 'bill', 400, 'one', 1, false);
+    var key3 = createNewTransaction('Monthly Deposit', date3, 'mon', 'dep', 1500, 'two', 1, false);
+    var key4 = createNewTransaction('Quarterly Bill', date4, 'qtr', 'bill', 100, 'three', 1, false);
+    var key5 = createNewTransaction('Monthly Expense', date5, 'mon', 'bill', 250, 'five', 1, false);
     storedData.accounts[acctKey].transData = transData
     forecastData = {
         "startBalance" : 1500, 
@@ -169,20 +169,32 @@ function updateTransaction(key, action, pushToGoogle = true) {
       var type = document.editTransaction.type.value;
       var amount = parseFloat(document.editTransaction.amount.value);
       var tags = document.editTransaction.tags.value;
-
+      var priority = 1;
+      if (document.editTransaction.priority) {
+        priority = parseInt(document.editTransaction.priority.value);
+      }
+      var ignoreBudget = false;
+      if (document.editTransaction.ignoreBudget) {
+        ignoreBudget = document.editTransaction.ignoreBudget.checked;
+      }
+      // If freq is one, ignore budget by default if not specified
+      if (!document.editTransaction.ignoreBudget && freq == "one") {
+        ignoreBudget = true;
+      }
 
       if (action == "all") {
           // Update all the data associated with this key with the given information
-          updateExistingTransaction(key, action, name, date, freq, type, amount, tags);
+          updateExistingTransaction(key, action, name, date, freq, type, amount, tags, priority, ignoreBudget);
       }
       else if (action == "one") {
           // Increment this key to a future transactions and write this data as a new transaction key
           incrementTransaction(key);
-          createNewTransaction(name, date, "one", type, amount, tags);
+          // For one-off, use priority but likely ignore budget
+          createNewTransaction(name, date, "one", type, amount, tags, priority, true);
       }
       else if (action == "new") {
           // Write this data as a new transaction key
-          createNewTransaction(name, date, freq, type, amount, tags);
+          createNewTransaction(name, date, freq, type, amount, tags, priority, ignoreBudget);
       }
     }
     storedData.accounts[acctKey].transData = transData
@@ -198,12 +210,12 @@ function payAllToNow() {
     updateStoredData('storedData', storedData, true);
 }
 
-function createNewTransaction (name, date, freq, type, amount, tags) {
+function createNewTransaction (name, date, freq, type, amount, tags, priority, ignoreBudget) {
     var key = generateKey();
     //console.log("createNew");
     //console.log(transData[key]);
     transData[key] = {};
-    updateExistingTransaction (key, "all", name, date, freq, type, amount, tags)
+    updateExistingTransaction (key, "all", name, date, freq, type, amount, tags, priority, ignoreBudget)
     return key;
 }
 
@@ -224,7 +236,7 @@ function createNewAccount (name) {
 
     transData = {}
     var date1 = new Date()
-    var key = createNewTransaction('Monthly Expense', date1, 'mon', 'bill', 250, '');
+    var key = createNewTransaction('Monthly Expense', date1, 'mon', 'bill', 250, '', 1, false);
     storedData.accounts[acctKey].transData = transData
     forecastData = {
         "startBalance" : 1500, 
@@ -242,7 +254,7 @@ function deleteAccount(key) {
   setActiveAccount(activeAccount);
 }
 
-function updateExistingTransaction (key, action, name, date, freq, type, amount, tags) {
+function updateExistingTransaction (key, action, name, date, freq, type, amount, tags, priority, ignoreBudget) {
     //console.log("updateExisting");
     //console.log(transData[key]);
     transData[key].name = name;
@@ -251,6 +263,15 @@ function updateExistingTransaction (key, action, name, date, freq, type, amount,
     transData[key].amount = amount;
     transData[key].type = type;
     transData[key].tags = tags;
+
+    if (priority === undefined) priority = 1;
+    if (ignoreBudget === undefined) {
+        // default ignore for 'one' time transactions
+        ignoreBudget = (freq === 'one');
+    }
+    transData[key].priority = parseInt(priority);
+    transData[key].ignoreBudget = ignoreBudget;
+
     //console.log(transData[key]);
     //console.log(transData);
 }
@@ -415,4 +436,81 @@ function payTransaction(key, currentBalance) {
   else {currentBalance += transData[key].amount;} // deposit
   incrementTransaction(key); // increment date
   return currentBalance;
+}
+
+function calculateWeeklyBudget(amount, freq, type) {
+    var multiplier = 1;
+    if (type == "bill") {
+        multiplier = -1;
+    }
+
+    var freqFactor = 0;
+    switch (freq) {
+        case "wkl": freqFactor = 1; break;
+        case "bwk": freqFactor = 0.5; break; // E6/2
+        case "mon": freqFactor = 12/52; break; // E6*(12/52)
+        case "bmn": freqFactor = 6/52; break; // E6*(6/52)
+        case "qtr": freqFactor = 4/52; break; // E6*(4/52)
+        case "san": freqFactor = 2/52; break; // E6*(2/52)
+        case "anl": freqFactor = 1/52; break; // E6/52
+        case "one": freqFactor = 0; break;
+        default: freqFactor = 0;
+    }
+
+    return multiplier * amount * freqFactor;
+}
+
+function getAllTransactions() {
+    var allTrans = [];
+    for (var acctKey in storedData.accounts) {
+        var account = storedData.accounts[acctKey];
+        var acctName = account.name;
+
+        for (var transKey in account.transData) {
+            var trans = account.transData[transKey];
+            // Clone and add metadata
+            var transEntry = Object.assign({}, trans);
+            transEntry.key = transKey;
+            transEntry.acctKey = acctKey;
+            transEntry.acctName = acctName;
+
+            // Default Priority if missing
+            if (!transEntry.priority) {
+                transEntry.priority = 1;
+            } else {
+                transEntry.priority = parseInt(transEntry.priority);
+            }
+
+            // Default Ignore if missing
+            if (transEntry.ignoreBudget === undefined) {
+                 if (transEntry.freq == "one") {
+                     transEntry.ignoreBudget = true;
+                 } else {
+                     transEntry.ignoreBudget = false;
+                 }
+            }
+
+            transEntry.weeklyBudget = calculateWeeklyBudget(transEntry.amount, transEntry.freq, transEntry.type);
+
+            allTrans.push(transEntry);
+        }
+    }
+
+    // Sort
+    allTrans.sort(function(a, b) {
+        // 1. Deposits first
+        if (a.type == 'dep' && b.type == 'bill') return -1;
+        if (a.type == 'bill' && b.type == 'dep') return 1;
+
+        // 2. Priority (1 is high, 20 is low) - Ascending order
+        if (a.priority != b.priority) {
+            return a.priority - b.priority;
+        }
+
+        // 3. Weekly Budget (Secondary)
+        // Let's sort descending (Largest magnitude first)
+        return Math.abs(b.weeklyBudget) - Math.abs(a.weeklyBudget);
+    });
+
+    return allTrans;
 }

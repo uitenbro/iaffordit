@@ -42,6 +42,18 @@ function printMain() {
       
     }
 
+    else if (select == 'budget') {
+      var heading = document.createElement('h1');
+      heading.appendChild(document.createTextNode("Budget View"));
+      main.appendChild(heading);
+
+      var budgetView = printBudgetView();
+      main.appendChild(budgetView);
+
+      // Update main with the new content
+      document.getElementById('main').replaceWith(main);
+    }
+
     else { // select == 'forecast'
       
       var heading = document.createElement('h1');
@@ -865,6 +877,47 @@ function showEditTransactionForm(key, action) {
   li.appendChild(tags);
   form.appendChild(li);
 
+  // Priority
+  var li = document.createElement('li')
+  li.appendChild(document.createTextNode("Priority"));
+  form.appendChild(li);
+  var li = document.createElement('li');
+  var priority = document.createElement('input');
+  priority.type = "number";
+  priority.name = "priority";
+  if (transData[key] != undefined && transData[key].priority) {
+    priority.value = transData[key].priority;
+  } else {
+    priority.value = 1;
+  }
+  li.appendChild(priority);
+  form.appendChild(li);
+
+  // Ignore Budget
+  var li = document.createElement('li')
+  li.appendChild(document.createTextNode("Ignore Budget"));
+  form.appendChild(li);
+  var li = document.createElement('li');
+  var ignoreBudget = document.createElement('input');
+  ignoreBudget.type = "checkbox";
+  ignoreBudget.name = "ignoreBudget";
+
+  if (transData[key] != undefined) {
+      if (transData[key].ignoreBudget) {
+          ignoreBudget.checked = true;
+      }
+      // If editing a one-time transaction that doesn't have ignore set yet, default to true?
+      else if (transData[key].freq == 'one' && transData[key].ignoreBudget === undefined) {
+          ignoreBudget.checked = true;
+      }
+  } else if (action == 'one') {
+      // If converting to one-time instance, default ignore
+      ignoreBudget.checked = true;
+  }
+
+  li.appendChild(ignoreBudget);
+  form.appendChild(li);
+
   ul.appendChild(form);
   div.appendChild(ul);
 
@@ -929,6 +982,13 @@ function printHeader() {
     payAll.appendChild(document.createTextNode("Pay All"));
     div.appendChild(payAll);
 
+    var budget = document.createElement('a');
+    budget.className = "Action";
+    budget.style.right = "150px";
+    budget.href = "javascript:activeTab='budget';printHeader();printMain();";
+    budget.appendChild(document.createTextNode("Budget"));
+    div.appendChild(budget);
+
     document.getElementById('header').replaceWith(div);
 }
 
@@ -974,4 +1034,168 @@ function printDuration() {
   }
 
   return durationString;
+}
+
+function printBudgetView() {
+    var container = document.createElement('div');
+
+    // Update Button at Top
+    var updateBtnTop = document.createElement('a');
+    updateBtnTop.className = "black button";
+    updateBtnTop.href = "javascript:saveBudgetUpdates();";
+    updateBtnTop.appendChild(document.createTextNode("Update"));
+    container.appendChild(updateBtnTop);
+
+    var table = document.createElement('table');
+    table.className = "graph";
+
+    var thead = document.createElement('thead');
+    var tr = document.createElement('tr');
+    tr.className = "graphHeader";
+
+    // Headers
+    var headers = ["Prio", "Acct", "Name", "Freq", "Amt", "Weekly", "Ign", "Run Tot", "Year End"];
+    for (var i = 0; i < headers.length; i++) {
+        var th = document.createElement('th');
+        th.appendChild(document.createTextNode(headers[i]));
+        tr.appendChild(th);
+    }
+    thead.appendChild(tr);
+    table.appendChild(thead);
+
+    var tbody = document.createElement('tbody');
+
+    var transactions = getAllTransactions();
+    var runningTotal = 0;
+
+    for (var i = 0; i < transactions.length; i++) {
+        var trans = transactions[i];
+        var tr = document.createElement('tr');
+        tr.className = "budgetRow";
+
+        // Store keys for updates
+        tr.setAttribute('data-acct-key', trans.acctKey);
+        tr.setAttribute('data-trans-key', trans.key);
+
+        // 1. Priority (Input)
+        var td = document.createElement('td');
+        var priorityInput = document.createElement('input');
+        priorityInput.type = "number";
+        priorityInput.min = 1;
+        priorityInput.max = 20;
+        priorityInput.value = trans.priority;
+        priorityInput.name = "priority";
+        priorityInput.style.width = "40px";
+        td.appendChild(priorityInput);
+        tr.appendChild(td);
+
+        // 2. Account (Tag)
+        var td = document.createElement('td');
+        var acctSpan = document.createElement('span');
+        acctSpan.className = "tag purple";
+        acctSpan.appendChild(document.createTextNode(trans.acctName));
+        td.appendChild(acctSpan);
+        tr.appendChild(td);
+
+        // 3. Name
+        var td = document.createElement('td');
+        td.appendChild(document.createTextNode(trans.name));
+        tr.appendChild(td);
+
+        // 4. Freq
+        var td = document.createElement('td');
+        td.appendChild(document.createTextNode(trans.freq));
+        tr.appendChild(td);
+
+        // 5. Amount
+        var td = document.createElement('td');
+        td.className = "graphBalance";
+        td.appendChild(document.createTextNode(trans.amount.toFixed(2)));
+        tr.appendChild(td);
+
+        // 6. Weekly Budget
+        var td = document.createElement('td');
+        td.className = "graphBalance";
+        var weekly = trans.weeklyBudget;
+
+        if (trans.ignoreBudget) {
+            td.style.color = "grey";
+            td.appendChild(document.createTextNode("0.00"));
+            weekly = 0;
+        } else {
+            td.appendChild(document.createTextNode(weekly.toFixed(2)));
+        }
+        tr.appendChild(td);
+
+        // 7. Ignore (Checkbox)
+        var td = document.createElement('td');
+        var ignoreInput = document.createElement('input');
+        ignoreInput.type = "checkbox";
+        ignoreInput.checked = trans.ignoreBudget;
+        ignoreInput.name = "ignoreBudget";
+        td.appendChild(ignoreInput);
+        tr.appendChild(td);
+
+        // Update running total
+        runningTotal += weekly;
+
+        // 8. Running Total
+        var td = document.createElement('td');
+        td.className = "graphBalance";
+        td.appendChild(document.createTextNode(runningTotal.toFixed(2)));
+        if (runningTotal < 0) td.className = "red graphBalance";
+        tr.appendChild(td);
+
+        // 9. Year End Result
+        var td = document.createElement('td');
+        td.className = "graphBalance";
+        var yearEnd = runningTotal * 52;
+        td.appendChild(document.createTextNode(yearEnd.toFixed(2)));
+        if (yearEnd < 0) td.className = "red graphBalance";
+        tr.appendChild(td);
+
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+    container.appendChild(table);
+
+    // Update Button at Bottom
+    var updateBtnBottom = document.createElement('a');
+    updateBtnBottom.className = "black button";
+    updateBtnBottom.href = "javascript:saveBudgetUpdates();";
+    updateBtnBottom.appendChild(document.createTextNode("Update"));
+    container.appendChild(updateBtnBottom);
+
+    return container;
+}
+
+function saveBudgetUpdates() {
+    // 1. Get all rows
+    var rows = document.querySelectorAll('.budgetRow');
+
+    // 2. Iterate
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var acctKey = row.getAttribute('data-acct-key');
+        var transKey = row.getAttribute('data-trans-key');
+
+        var priorityInput = row.querySelector('input[name="priority"]');
+        var ignoreInput = row.querySelector('input[name="ignoreBudget"]');
+
+        var priority = parseInt(priorityInput.value);
+        var ignoreBudget = ignoreInput.checked;
+
+        // Update storedData directly
+        if (storedData.accounts[acctKey] && storedData.accounts[acctKey].transData[transKey]) {
+            storedData.accounts[acctKey].transData[transKey].priority = priority;
+            storedData.accounts[acctKey].transData[transKey].ignoreBudget = ignoreBudget;
+        }
+    }
+
+    // 3. Save
+    updateStoredData('storedData', storedData);
+
+    // 4. Refresh
+    printMain();
 }

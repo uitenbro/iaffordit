@@ -23,6 +23,11 @@
         margin:1px;
     }
 
+    span.tag.purple {
+        color: purple;
+        background-color: #e6cde6;
+    }
+
     ul.graphContainer {
       /*overflow: hidden;*/
     }
@@ -66,6 +71,9 @@
     td.graphBalance {
       text-align: right;
       white-space:nowrap;
+    }
+    td.red {
+      color: red;
     }
     td {
       border:0px solid black;
