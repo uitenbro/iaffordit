@@ -1129,6 +1129,9 @@ function printBudgetView() {
 
         // 3. Name (Merged with Account and Freq)
         var td = document.createElement('td');
+        td.style.cursor = "pointer";
+        td.onclick = (function(key) { return function() { showEditTransactionForm(key, 'all'); } })(trans.key);
+
         // Main Line: Name (Bold)
         var nameDiv = document.createElement('div');
         nameDiv.style.fontWeight = "bold";
@@ -1152,6 +1155,8 @@ function printBudgetView() {
 
         // 4. Amount
         var td = document.createElement('td');
+        td.style.cursor = "pointer";
+        td.onclick = (function(key) { return function() { showEditTransactionForm(key, 'all'); } })(trans.key);
         td.className = "graphBalance";
         td.appendChild(document.createTextNode(trans.amount.toFixed(2)));
         tr.appendChild(td);
