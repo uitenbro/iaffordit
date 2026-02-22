@@ -133,6 +133,7 @@ table.budget tbody tr.budgetRow td {
 
 table.budget tbody tr.budgetRow td.graphBalance {
     text-align: right;
+    font-weight: bold;
 }
 
 table.budget tbody tr.budgetRow:first-child {

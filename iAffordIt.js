@@ -1078,18 +1078,15 @@ function printBudgetView() {
     tr.className = "graphHeader";
 
     // Headers
-    // Prio/Ign, Name/Acct/Freq/Amt, Wkly, Run Tot, Year End
-    var headers = [
-        { label: "Priority Ignore", align: "center" },
-        { label: "Transaction", align: "left" },
-        { label: "Weekly Budget", align: "right" },
-        { label: "Run Total", align: "right" },
-        { label: "Year End", align: "right" }
-    ];
+    // Prio, Ign, Name, Amt, Wkly, Run Tot, Year End
+    var headers = ["Prio", "Ign", "Name", "Amt", "Wkly", "Run Tot", "Year End"];
     for (var i = 0; i < headers.length; i++) {
         var th = document.createElement('th');
-        th.appendChild(document.createTextNode(headers[i].label));
-        th.style.textAlign = headers[i].align;
+        th.appendChild(document.createTextNode(headers[i]));
+        // Right align monetary columns
+        if (["Amt", "Wkly", "Run Tot", "Year End"].indexOf(headers[i]) !== -1) {
+            th.style.textAlign = "right";
+        }
         tr.appendChild(th);
     }
     thead.appendChild(tr);
@@ -1109,9 +1106,8 @@ function printBudgetView() {
         tr.setAttribute('data-acct-key', trans.acctKey);
         tr.setAttribute('data-trans-key', trans.key);
 
-        // 1. Priority + Ignore (combined column)
+        // 1. Priority (Input)
         var td = document.createElement('td');
-        td.style.textAlign = "center";
         var priorityInput = document.createElement('input');
         priorityInput.type = "number";
         priorityInput.min = 1;
@@ -1119,42 +1115,50 @@ function printBudgetView() {
         priorityInput.value = trans.priority;
         priorityInput.name = "priority";
         priorityInput.style.width = "40px";
-        priorityInput.style.display = "block";
-        priorityInput.style.margin = "0 auto";
         td.appendChild(priorityInput);
+        tr.appendChild(td);
+
+        // 2. Ignore (Checkbox) - Moved next to Priority
+        var td = document.createElement('td');
         var ignoreInput = document.createElement('input');
         ignoreInput.type = "checkbox";
         ignoreInput.checked = trans.ignoreBudget;
         ignoreInput.name = "ignoreBudget";
-        ignoreInput.style.display = "block";
-        ignoreInput.style.margin = "4px auto 0";
         td.appendChild(ignoreInput);
         tr.appendChild(td);
 
-        // 2. Name + Account + Freq + Amount (combined column)
+        // 3. Name (Merged with Account and Freq)
         var td = document.createElement('td');
         td.style.cursor = "pointer";
         td.onclick = (function(key) { return function() { showEditTransactionForm(key, 'all'); } })(trans.key);
 
-        // Top Line: Name (Bold)
+        // Main Line: Name (Bold)
         var nameDiv = document.createElement('div');
         nameDiv.style.fontWeight = "bold";
         nameDiv.appendChild(document.createTextNode(trans.name));
         td.appendChild(nameDiv);
 
-        // Bottom Line: Account Tag + Freq + Amount
+        // Sub Line: Account Tag + Freq
         var subDiv = document.createElement('div');
         subDiv.style.fontSize = "0.85em";
         subDiv.style.marginTop = "2px";
 
-        // var acctSpan = document.createElement('span');
-        // acctSpan.className = "tag purple";
-        // acctSpan.appendChild(document.createTextNode(trans.acctName));
-        // subDiv.appendChild(acctSpan);
+        var acctSpan = document.createElement('span');
+        acctSpan.className = "tag purple";
+        acctSpan.appendChild(document.createTextNode(trans.acctName));
+        subDiv.appendChild(acctSpan);
 
-        subDiv.appendChild(document.createTextNode(" " + trans.freq + "  " + trans.amount.toFixed(2)));
+        subDiv.appendChild(document.createTextNode(" " + trans.freq));
         td.appendChild(subDiv);
 
+        tr.appendChild(td);
+
+        // 4. Amount
+        var td = document.createElement('td');
+        td.style.cursor = "pointer";
+        td.onclick = (function(key) { return function() { showEditTransactionForm(key, 'all'); } })(trans.key);
+        td.className = "graphBalance";
+        td.appendChild(document.createTextNode(trans.amount.toFixed(2)));
         tr.appendChild(td);
 
         // 5. Weekly Budget
