@@ -26,8 +26,11 @@ function printMain() {
     dataSource.href = "javascript:displayGoogleDriveOptions()";
     heading.appendChild(dataSource);
     main.appendChild(heading);
-    var ul = printForecastDetails();
-    main.appendChild(ul);
+
+    if (select != 'budget') {
+        var ul = printForecastDetails();
+        main.appendChild(ul);
+    }
 
     if (select == 'transactions') {
 
@@ -1074,10 +1077,15 @@ function printBudgetView() {
     tr.className = "graphHeader";
 
     // Headers
-    var headers = ["Prio", "Acct", "Name", "Freq", "Amt", "Wkly", "Ign", "Run Tot", "Year End"];
+    // Prio, Ign, Name, Amt, Wkly, Run Tot, Year End
+    var headers = ["Prio", "Ign", "Name", "Amt", "Wkly", "Run Tot", "Year End"];
     for (var i = 0; i < headers.length; i++) {
         var th = document.createElement('th');
         th.appendChild(document.createTextNode(headers[i]));
+        // Right align monetary columns
+        if (["Amt", "Wkly", "Run Tot", "Year End"].indexOf(headers[i]) !== -1) {
+            th.style.textAlign = "right";
+        }
         tr.appendChild(th);
     }
     thead.appendChild(tr);
@@ -1109,31 +1117,45 @@ function printBudgetView() {
         td.appendChild(priorityInput);
         tr.appendChild(td);
 
-        // 2. Account (Tag)
+        // 2. Ignore (Checkbox) - Moved next to Priority
         var td = document.createElement('td');
+        var ignoreInput = document.createElement('input');
+        ignoreInput.type = "checkbox";
+        ignoreInput.checked = trans.ignoreBudget;
+        ignoreInput.name = "ignoreBudget";
+        td.appendChild(ignoreInput);
+        tr.appendChild(td);
+
+        // 3. Name (Merged with Account and Freq)
+        var td = document.createElement('td');
+        // Main Line: Name (Bold)
+        var nameDiv = document.createElement('div');
+        nameDiv.style.fontWeight = "bold";
+        nameDiv.appendChild(document.createTextNode(trans.name));
+        td.appendChild(nameDiv);
+
+        // Sub Line: Account Tag + Freq
+        var subDiv = document.createElement('div');
+        subDiv.style.fontSize = "0.85em";
+        subDiv.style.marginTop = "2px";
+
         var acctSpan = document.createElement('span');
         acctSpan.className = "tag purple";
         acctSpan.appendChild(document.createTextNode(trans.acctName));
-        td.appendChild(acctSpan);
+        subDiv.appendChild(acctSpan);
+
+        subDiv.appendChild(document.createTextNode(" " + trans.freq));
+        td.appendChild(subDiv);
+
         tr.appendChild(td);
 
-        // 3. Name
-        var td = document.createElement('td');
-        td.appendChild(document.createTextNode(trans.name));
-        tr.appendChild(td);
-
-        // 4. Freq
-        var td = document.createElement('td');
-        td.appendChild(document.createTextNode(trans.freq));
-        tr.appendChild(td);
-
-        // 5. Amount
+        // 4. Amount
         var td = document.createElement('td');
         td.className = "graphBalance";
         td.appendChild(document.createTextNode(trans.amount.toFixed(2)));
         tr.appendChild(td);
 
-        // 6. Weekly Budget
+        // 5. Weekly Budget
         var td = document.createElement('td');
         td.className = "graphBalance";
         var weekly = trans.weeklyBudget;
@@ -1147,31 +1169,26 @@ function printBudgetView() {
         }
         tr.appendChild(td);
 
-        // 7. Ignore (Checkbox)
-        var td = document.createElement('td');
-        var ignoreInput = document.createElement('input');
-        ignoreInput.type = "checkbox";
-        ignoreInput.checked = trans.ignoreBudget;
-        ignoreInput.name = "ignoreBudget";
-        td.appendChild(ignoreInput);
-        tr.appendChild(td);
-
         // Update running total
         runningTotal += weekly;
 
-        // 8. Running Total
+        // 6. Running Total
         var td = document.createElement('td');
-        td.className = "graphBalance";
+        td.className = "graphBalance"; // Ensures right align
         td.appendChild(document.createTextNode(runningTotal.toFixed(2)));
-        if (runningTotal < 0) td.className = "red graphBalance";
+        if (runningTotal < 0) {
+            td.className = "red graphBalance"; // Ensures red color
+        }
         tr.appendChild(td);
 
-        // 9. Year End Result
+        // 7. Year End Result
         var td = document.createElement('td');
-        td.className = "graphBalance";
+        td.className = "graphBalance"; // Ensures right align
         var yearEnd = runningTotal * 52;
         td.appendChild(document.createTextNode(yearEnd.toFixed(2)));
-        if (yearEnd < 0) td.className = "red graphBalance";
+        if (yearEnd < 0) {
+            td.className = "red graphBalance"; // Ensures red color
+        }
         tr.appendChild(td);
 
         tbody.appendChild(tr);
