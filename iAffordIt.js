@@ -126,7 +126,7 @@ One Year
       balance.className = "smalldep";
   }
   balance.href= "javascript:showUpdateForecastForm()"
-  balance.appendChild(document.createTextNode((forecastData.startBalance).toFixed(2)));
+  balance.appendChild(document.createTextNode(formatCurrency(forecastData.startBalance)));
   li.appendChild(balance);
   var label = document.createElement('a');
   label.href= "javascript:showUpdateForecastForm()";
@@ -182,7 +182,7 @@ function printForecastTable(forecastedBalance) {
     tr.appendChild(td);
     var td = document.createElement('td');
     td.className = "graphBalance";
-    td.appendChild(document.createTextNode(forecastedBalance[i].balance.toFixed(2)));
+    td.appendChild(document.createTextNode(formatCurrency(forecastedBalance[i].balance)));
     tr.appendChild(td);
     var graphString = "";
     for (var j=0; j<Math.abs(forecastedBalance[i].balance); j+=forecastData.graphTick) {
@@ -238,7 +238,7 @@ function printTransaction(key) {
     else {
         amount.className = "smalldep";
     }
-    var printAmount = (transData[key].amount).toFixed(2);
+    var printAmount = formatCurrency(transData[key].amount);
     amount.appendChild(document.createTextNode(printAmount));
     li.appendChild(amount);
     var name = document.createElement('a');
@@ -1152,7 +1152,7 @@ function printBudgetView() {
         // acctSpan.appendChild(document.createTextNode(trans.acctName));
         // subDiv.appendChild(acctSpan);
 
-        subDiv.appendChild(document.createTextNode(" " + trans.freq + "  " + trans.amount.toFixed(2)));
+        subDiv.appendChild(document.createTextNode(" " + trans.freq + "  " + formatCurrency(trans.amount)));
         td.appendChild(subDiv);
 
         tr.appendChild(td);
@@ -1167,7 +1167,7 @@ function printBudgetView() {
             td.appendChild(document.createTextNode("0.00"));
             weekly = 0;
         } else {
-            td.appendChild(document.createTextNode(weekly.toFixed(2)));
+            td.appendChild(document.createTextNode(formatCurrency(weekly)));
         }
         tr.appendChild(td);
 
@@ -1177,7 +1177,7 @@ function printBudgetView() {
         // 6. Running Total
         var td = document.createElement('td');
         td.className = "graphBalance"; // Ensures right align
-        td.appendChild(document.createTextNode(runningTotal.toFixed(2)));
+        td.appendChild(document.createTextNode(formatCurrency(runningTotal)));
         if (runningTotal < 0) {
             td.className = "red graphBalance"; // Ensures red color
         }
@@ -1187,7 +1187,7 @@ function printBudgetView() {
         var td = document.createElement('td');
         td.className = "graphBalance"; // Ensures right align
         var yearEnd = runningTotal * 52;
-        td.appendChild(document.createTextNode(yearEnd.toFixed(2)));
+        td.appendChild(document.createTextNode(formatCurrency(yearEnd)));
         if (yearEnd < 0) {
             td.className = "red graphBalance"; // Ensures red color
         }
