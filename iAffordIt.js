@@ -8,26 +8,30 @@ function printMain() {
     var main = document.createElement('div');
     main.id = 'main';
 
-    var heading = document.createElement('h1');
-    var accountName = document.createElement('a');  
-    accountName.className = "acctname";
-    accountName.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
-    accountName.href = "javascript:showAccountOptionsForm()";
-    heading.appendChild(accountName)
-    var dataSource = document.createElement('a');
-    dataSource.className = "datasource";
-    if (localStorage.getItem('googleData')) {
-      dataSource.appendChild(document.createTextNode("google drive"));
-    }
-    else {
-      dataSource.appendChild(document.createTextNode("local storage"));
-    }
+    // Only show account name and source if NOT in budget view
+    if (select != 'budget') {
+        var heading = document.createElement('h1');
+        var accountName = document.createElement('a');
+        accountName.className = "acctname";
+        accountName.appendChild(document.createTextNode(storedData.accounts[acctKey].name));
+        accountName.href = "javascript:showAccountOptionsForm()";
+        heading.appendChild(accountName)
+        var dataSource = document.createElement('a');
+        dataSource.className = "datasource";
+        if (localStorage.getItem('googleData')) {
+          dataSource.appendChild(document.createTextNode("google drive"));
+        }
+        else {
+          dataSource.appendChild(document.createTextNode("local storage"));
+        }
 
-    dataSource.href = "javascript:displayGoogleDriveOptions()";
-    heading.appendChild(dataSource);
-    main.appendChild(heading);
-    var ul = printForecastDetails();
-    main.appendChild(ul);
+        dataSource.href = "javascript:displayGoogleDriveOptions()";
+        heading.appendChild(dataSource);
+        main.appendChild(heading);
+
+        var ul = printForecastDetails();
+        main.appendChild(ul);
+    }
 
     if (select == 'transactions') {
 
@@ -40,6 +44,18 @@ function printMain() {
       // Update main with the new content
       document.getElementById('main').replaceWith(main);
       
+    }
+
+    else if (select == 'budget') {
+      var heading = document.createElement('h1');
+      heading.appendChild(document.createTextNode("Budget View"));
+      main.appendChild(heading);
+
+      var budgetView = printBudgetView();
+      main.appendChild(budgetView);
+
+      // Update main with the new content
+      document.getElementById('main').replaceWith(main);
     }
 
     else { // select == 'forecast'
@@ -865,6 +881,47 @@ function showEditTransactionForm(key, action) {
   li.appendChild(tags);
   form.appendChild(li);
 
+  // Priority
+  var li = document.createElement('li')
+  li.appendChild(document.createTextNode("Priority"));
+  form.appendChild(li);
+  var li = document.createElement('li');
+  var priority = document.createElement('input');
+  priority.type = "number";
+  priority.name = "priority";
+  if (transData[key] != undefined && transData[key].priority) {
+    priority.value = transData[key].priority;
+  } else {
+    priority.value = 1;
+  }
+  li.appendChild(priority);
+  form.appendChild(li);
+
+  // Ignore Budget
+  var li = document.createElement('li')
+  li.appendChild(document.createTextNode("Ignore Budget"));
+  form.appendChild(li);
+  var li = document.createElement('li');
+  var ignoreBudget = document.createElement('input');
+  ignoreBudget.type = "checkbox";
+  ignoreBudget.name = "ignoreBudget";
+
+  if (transData[key] != undefined) {
+      if (transData[key].ignoreBudget) {
+          ignoreBudget.checked = true;
+      }
+      // If editing a one-time transaction that doesn't have ignore set yet, default to true?
+      else if (transData[key].freq == 'one' && transData[key].ignoreBudget === undefined) {
+          ignoreBudget.checked = true;
+      }
+  } else if (action == 'one') {
+      // If converting to one-time instance, default ignore
+      ignoreBudget.checked = true;
+  }
+
+  li.appendChild(ignoreBudget);
+  form.appendChild(li);
+
   ul.appendChild(form);
   div.appendChild(ul);
 
@@ -907,27 +964,59 @@ function printHeader() {
       newTrans.href = "javascript:showEditTransactionForm('newKey', 'new');";
       newTrans.appendChild(document.createTextNode("New"));
       div.appendChild(newTrans);
+
+      var budget = document.createElement('a');
+      budget.id = "leftActionButton";
+      budget.style.left = "60px"; // Position it next to New
+      budget.style.borderWidth = "0 5px"; // Match Action style but position left
+      budget.href = "javascript:activeTab='budget';printHeader();printMain();";
+      budget.appendChild(document.createTextNode("Budget"));
+      div.appendChild(budget);
     }
-    else {
+    else if (select == 'budget') {
+        var transList = document.createElement('a');
+        transList.id = "leftActionButton";
+        transList.href = "javascript:activeTab='transactions';printHeader();printMain();";
+        transList.appendChild(document.createTextNode("Transactions"));
+        div.appendChild(transList);
+    }
+    else { // forecast
       var transList = document.createElement('a');
       transList.id = "leftActionButton";
       transList.href = "javascript:activeTab='transactions';printHeader();printMain();";
       transList.appendChild(document.createTextNode("Transactions"));
       div.appendChild(transList);
+
+      var budget = document.createElement('a');
+      budget.id = "leftActionButton";
+      budget.style.left = "110px"; // Position next to Transactions
+      budget.style.borderWidth = "0 5px";
+      budget.href = "javascript:activeTab='budget';printHeader();printMain();";
+      budget.appendChild(document.createTextNode("Budget"));
+      div.appendChild(budget);
     }
 
-    var forecast = document.createElement('a');
-    forecast.id = "Action";
-    forecast.href = "javascript:forecastBalance();activeTab='forecast';printHeader();printMain();";
-    forecast.appendChild(document.createTextNode("Forecast"));
-    div.appendChild(forecast);
+    if (select != 'budget') {
+        var forecast = document.createElement('a');
+        forecast.id = "Action";
+        forecast.href = "javascript:forecastBalance();activeTab='forecast';printHeader();printMain();";
+        forecast.appendChild(document.createTextNode("Forecast"));
+        div.appendChild(forecast);
 
-    var payAll = document.createElement('a');
-    payAll.className = "Action";
-    payAll.style.right = "80px";
-    payAll.href = "javascript:payAllToNow();printHeader();printMain();";
-    payAll.appendChild(document.createTextNode("Pay All"));
-    div.appendChild(payAll);
+        var payAll = document.createElement('a');
+        payAll.className = "Action";
+        payAll.style.right = "80px";
+        payAll.href = "javascript:payAllToNow();printHeader();printMain();";
+        payAll.appendChild(document.createTextNode("Pay All"));
+        div.appendChild(payAll);
+    } else {
+        // Budget View - Only Update Button on Right
+        var update = document.createElement('a');
+        update.id = "Action";
+        update.href = "javascript:saveBudgetUpdates();";
+        update.appendChild(document.createTextNode("Update"));
+        div.appendChild(update);
+    }
 
     document.getElementById('header').replaceWith(div);
 }
@@ -974,4 +1063,175 @@ function printDuration() {
   }
 
   return durationString;
+}
+
+function printBudgetView() {
+    var container = document.createElement('div');
+
+    // Update Button moved to Header
+
+    var table = document.createElement('table');
+    table.className = "budget";
+
+    var thead = document.createElement('thead');
+    var tr = document.createElement('tr');
+    tr.className = "graphHeader";
+
+    // Headers
+    // Prio, Ign, Name, Amt, Wkly, Run Tot, Year End
+    var headers = ["Prio", "Ign", "Name", "Amt", "Wkly", "Run Tot", "Year End"];
+    for (var i = 0; i < headers.length; i++) {
+        var th = document.createElement('th');
+        th.appendChild(document.createTextNode(headers[i]));
+        // Right align monetary columns
+        if (["Amt", "Wkly", "Run Tot", "Year End"].indexOf(headers[i]) !== -1) {
+            th.style.textAlign = "right";
+        }
+        tr.appendChild(th);
+    }
+    thead.appendChild(tr);
+    table.appendChild(thead);
+
+    var tbody = document.createElement('tbody');
+
+    var transactions = getAllTransactions();
+    var runningTotal = 0;
+
+    for (var i = 0; i < transactions.length; i++) {
+        var trans = transactions[i];
+        var tr = document.createElement('tr');
+        tr.className = "budgetRow";
+
+        // Store keys for updates
+        tr.setAttribute('data-acct-key', trans.acctKey);
+        tr.setAttribute('data-trans-key', trans.key);
+
+        // 1. Priority (Input)
+        var td = document.createElement('td');
+        var priorityInput = document.createElement('input');
+        priorityInput.type = "number";
+        priorityInput.min = 1;
+        priorityInput.max = 20;
+        priorityInput.value = trans.priority;
+        priorityInput.name = "priority";
+        priorityInput.style.width = "40px";
+        td.appendChild(priorityInput);
+        tr.appendChild(td);
+
+        // 2. Ignore (Checkbox) - Moved next to Priority
+        var td = document.createElement('td');
+        var ignoreInput = document.createElement('input');
+        ignoreInput.type = "checkbox";
+        ignoreInput.checked = trans.ignoreBudget;
+        ignoreInput.name = "ignoreBudget";
+        td.appendChild(ignoreInput);
+        tr.appendChild(td);
+
+        // 3. Name (Merged with Account and Freq)
+        var td = document.createElement('td');
+        td.style.cursor = "pointer";
+        td.onclick = (function(key) { return function() { showEditTransactionForm(key, 'all'); } })(trans.key);
+
+        // Main Line: Name (Bold)
+        var nameDiv = document.createElement('div');
+        nameDiv.style.fontWeight = "bold";
+        nameDiv.appendChild(document.createTextNode(trans.name));
+        td.appendChild(nameDiv);
+
+        // Sub Line: Account Tag + Freq
+        var subDiv = document.createElement('div');
+        subDiv.style.fontSize = "0.85em";
+        subDiv.style.marginTop = "2px";
+
+        var acctSpan = document.createElement('span');
+        acctSpan.className = "tag purple";
+        acctSpan.appendChild(document.createTextNode(trans.acctName));
+        subDiv.appendChild(acctSpan);
+
+        subDiv.appendChild(document.createTextNode(" " + trans.freq));
+        td.appendChild(subDiv);
+
+        tr.appendChild(td);
+
+        // 4. Amount
+        var td = document.createElement('td');
+        td.style.cursor = "pointer";
+        td.onclick = (function(key) { return function() { showEditTransactionForm(key, 'all'); } })(trans.key);
+        td.className = "graphBalance";
+        td.appendChild(document.createTextNode(trans.amount.toFixed(2)));
+        tr.appendChild(td);
+
+        // 5. Weekly Budget
+        var td = document.createElement('td');
+        td.className = "graphBalance";
+        var weekly = trans.weeklyBudget;
+
+        if (trans.ignoreBudget) {
+            td.style.color = "grey";
+            td.appendChild(document.createTextNode("0.00"));
+            weekly = 0;
+        } else {
+            td.appendChild(document.createTextNode(weekly.toFixed(2)));
+        }
+        tr.appendChild(td);
+
+        // Update running total
+        runningTotal += weekly;
+
+        // 6. Running Total
+        var td = document.createElement('td');
+        td.className = "graphBalance"; // Ensures right align
+        td.appendChild(document.createTextNode(runningTotal.toFixed(2)));
+        if (runningTotal < 0) {
+            td.className = "red graphBalance"; // Ensures red color
+        }
+        tr.appendChild(td);
+
+        // 7. Year End Result
+        var td = document.createElement('td');
+        td.className = "graphBalance"; // Ensures right align
+        var yearEnd = runningTotal * 52;
+        td.appendChild(document.createTextNode(yearEnd.toFixed(2)));
+        if (yearEnd < 0) {
+            td.className = "red graphBalance"; // Ensures red color
+        }
+        tr.appendChild(td);
+
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+    container.appendChild(table);
+
+    return container;
+}
+
+function saveBudgetUpdates() {
+    // 1. Get all rows
+    var rows = document.querySelectorAll('.budgetRow');
+
+    // 2. Iterate
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var acctKey = row.getAttribute('data-acct-key');
+        var transKey = row.getAttribute('data-trans-key');
+
+        var priorityInput = row.querySelector('input[name="priority"]');
+        var ignoreInput = row.querySelector('input[name="ignoreBudget"]');
+
+        var priority = parseInt(priorityInput.value);
+        var ignoreBudget = ignoreInput.checked;
+
+        // Update storedData directly
+        if (storedData.accounts[acctKey] && storedData.accounts[acctKey].transData[transKey]) {
+            storedData.accounts[acctKey].transData[transKey].priority = priority;
+            storedData.accounts[acctKey].transData[transKey].ignoreBudget = ignoreBudget;
+        }
+    }
+
+    // 3. Save
+    updateStoredData('storedData', storedData);
+
+    // 4. Refresh
+    printMain();
 }
