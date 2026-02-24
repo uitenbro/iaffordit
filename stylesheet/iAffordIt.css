@@ -98,10 +98,14 @@
     margin-left: -10px;
 }
 
+.budgetContainer {
+    margin: 15px 10px 17px 0;
+}
+
 table.budget {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 0;
     background: #fff;
     border: 1px solid #B4B4B4;
     -webkit-border-radius: 8px;
@@ -141,12 +145,19 @@ table.budget tbody tr.budgetRow:first-child {
 
 /* Adjust Input styles within table */
 table.budget input[type="number"] {
-    font-size: 14px;
-    width: 40px;
+    font-size: 12px;
+    width: 30px;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 2px;
+}
+
+/* Reduce padding for first column */
+table.budget th:first-child,
+table.budget td:first-child {
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 table.budget tbody tr.budgetRow td.red {
