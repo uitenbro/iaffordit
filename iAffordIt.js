@@ -649,7 +649,7 @@ function showUpdateForecastForm() {
 
 }
 
-function showEditTransactionForm(key, action) {
+function showEditTransactionForm(key, action, accountKey = null) {
 /*
 <h1>Edit Transaction</h1>
 <ul>
@@ -670,6 +670,17 @@ function showEditTransactionForm(key, action) {
 <li><input type="text" name="tags" size="20" value="check"/></li>
 </form></ul>
 */
+
+  // If accountKey is provided and different from current active account, switch context
+  if (accountKey && accountKey != acctKey) {
+      acctKey = accountKey;
+      storedData.activeAccount = acctKey;
+      updateStoredData("storedData", storedData, false);
+
+      // Update global references for the new account
+      transData = storedData.accounts[acctKey].transData;
+      forecastData = storedData.accounts[acctKey].forecastData;
+  }
 
   if (transData[key] == undefined) {
     key = "'newKey'";
@@ -935,6 +946,16 @@ function showEditTransactionForm(key, action) {
   save.appendChild(document.createTextNode("Save"));
   buttonContainer.appendChild(save);
 
+  // Delete
+  if (action != 'new') {
+      var del = document.createElement('a');
+      del.className = "red button";
+      // Use 'delete' action. Note: updateTransaction handles delete correctly.
+      del.href = "javascript:updateTransaction(" + key + ", 'delete');printHeader();printMain();";
+      del.appendChild(document.createTextNode("Delete"));
+      buttonContainer.appendChild(del);
+  }
+
   // Add to the page and hide main panel
   div.appendChild(buttonContainer);
   document.getElementById('options').replaceWith(div);
@@ -1134,7 +1155,7 @@ function printBudgetView() {
         // 2. Name + Account + Freq + Amount (combined column)
         var td = document.createElement('td');
         td.style.cursor = "pointer";
-        td.onclick = (function(key) { return function() { showEditTransactionForm(key, 'all'); } })(trans.key);
+        td.onclick = (function(key, acctKey) { return function() { showEditTransactionForm(key, 'all', acctKey); } })(trans.key, trans.acctKey);
 
         // Top Line: Name (Bold)
         var nameDiv = document.createElement('div');
