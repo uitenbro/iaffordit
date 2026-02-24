@@ -1088,6 +1088,7 @@ function printDuration() {
 
 function printBudgetView() {
     var container = document.createElement('div');
+    container.className = "budgetContainer";
 
     // Update Button moved to Header
 
@@ -1101,7 +1102,7 @@ function printBudgetView() {
     // Headers
     // Prio/Ign, Name/Acct/Freq/Amt, Wkly, Run Tot, Year End
     var headers = [
-        { label: "Priority Ignore", align: "center" },
+        { label: "Rank Skip", align: "center" },
         { label: "Transaction", align: "left" },
         { label: "Weekly Budget", align: "right" },
         { label: "Run Total", align: "right" },
@@ -1139,7 +1140,6 @@ function printBudgetView() {
         priorityInput.max = 20;
         priorityInput.value = trans.priority;
         priorityInput.name = "priority";
-        priorityInput.style.width = "40px";
         priorityInput.style.display = "block";
         priorityInput.style.margin = "0 auto";
         td.appendChild(priorityInput);
