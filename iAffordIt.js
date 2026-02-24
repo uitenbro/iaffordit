@@ -1102,7 +1102,7 @@ function printBudgetView() {
     // Headers
     // Prio/Ign, Name/Acct/Freq/Amt, Wkly, Run Tot, Year End
     var headers = [
-        { label: "Order Ignore", align: "center" },
+        { label: "Rank Skip", align: "center" },
         { label: "Transaction", align: "left" },
         { label: "Weekly Budget", align: "right" },
         { label: "Run Total", align: "right" },
