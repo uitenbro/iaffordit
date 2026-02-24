@@ -894,7 +894,7 @@ function showEditTransactionForm(key, action, accountKey = null) {
 
   // Priority
   var li = document.createElement('li')
-  li.appendChild(document.createTextNode("Priority"));
+  li.appendChild(document.createTextNode("Rank"));
   form.appendChild(li);
   var li = document.createElement('li');
   var priority = document.createElement('input');
@@ -910,7 +910,7 @@ function showEditTransactionForm(key, action, accountKey = null) {
 
   // Ignore Budget
   var li = document.createElement('li')
-  li.appendChild(document.createTextNode("Ignore Budget"));
+  li.appendChild(document.createTextNode("Skip for Budget"));
   form.appendChild(li);
   var li = document.createElement('li');
   var ignoreBudget = document.createElement('input');
