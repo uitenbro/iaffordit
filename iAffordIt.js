@@ -675,7 +675,7 @@ function showEditTransactionForm(key, action, accountKey = null) {
   if (accountKey && accountKey != acctKey) {
       acctKey = accountKey;
       storedData.activeAccount = acctKey;
-      updateStoredData("storedData", storedData);
+      updateStoredData("storedData", storedData, false);
 
       // Update global references for the new account
       transData = storedData.accounts[acctKey].transData;
